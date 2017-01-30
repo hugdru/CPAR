@@ -1,0 +1,5 @@
+.idea/
+.ycm_extra_conf.py
+bin/
+buildtemp/
+cmake-build-*/
