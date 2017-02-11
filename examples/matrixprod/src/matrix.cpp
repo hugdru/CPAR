@@ -1,6 +1,7 @@
 #include "matrix.hpp"
 
 #include <ctime>
+#include <omp.h>
 #include <iostream>
 
 using namespace std;
@@ -64,7 +65,7 @@ Matrix *Matrix::MultiplicationNaiveSerial(Matrix &matrix_a, Matrix &matrix_b) {
   Matrix *matrix_result =
       AllocateMultiplicationMatrix(matrix_a, matrix_b, false);
 
-  clock_t start = clock();
+  double start = clock();
   for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
     for (size_t column_b = 0; column_b < matrix_b.columns_length; column_b++) {
       double temp_sum = 0;
@@ -74,13 +75,47 @@ Matrix *Matrix::MultiplicationNaiveSerial(Matrix &matrix_a, Matrix &matrix_b) {
       (*matrix_result)(row_a, column_b) = temp_sum;
     }
   }
-  clock_t end = clock();
+  double end = clock();
   char buffer[100];
   snprintf(buffer, 100, "Time: %3.3f seconds\n",
            static_cast<double>(end - start) / CLOCKS_PER_SEC);
   cout << buffer;
 
   return matrix_result;
+}
+
+Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b) {
+    if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
+        throw new invalid_argument(
+                "matrices are not compatible for multiplication");
+    }
+
+    Matrix *matrix_result =
+            AllocateMultiplicationMatrix(matrix_a, matrix_b, false);
+
+    cout << "Number of CPU Threads: " << omp_get_num_procs() << endl;
+    omp_set_num_threads(omp_get_num_procs());
+
+    double start = omp_get_wtime();
+    #pragma omp parallel for
+    for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
+        #pragma omp parallel for
+        for (size_t column_b = 0; column_b < matrix_b.columns_length; column_b++) {
+            double temp_sum = 0.0;
+            #pragma omp parallel for reduction(+:temp_sum)
+            for (size_t k = 0; k < matrix_a.columns_length; k++) {
+                temp_sum += matrix_a(row_a, k) * matrix_b(k, column_b);
+            }
+            (*matrix_result)(row_a, column_b) = temp_sum;
+        }
+    }
+    double end = omp_get_wtime();
+    char buffer[100];
+    snprintf(buffer, 100, "Time: %3.3f seconds\n",
+             static_cast<double>(end - start));
+    cout << buffer;
+
+    return matrix_result;
 }
 
 Matrix *Matrix::MultiplicationLineSerial(Matrix &matrix_a, Matrix &matrix_b) {
@@ -105,6 +140,38 @@ Matrix *Matrix::MultiplicationLineSerial(Matrix &matrix_a, Matrix &matrix_b) {
   char buffer[100];
   snprintf(buffer, 100, "Time: %3.3f seconds\n",
            static_cast<double>(end - start) / CLOCKS_PER_SEC);
+  cout << buffer;
+
+  return matrix_result;
+}
+
+Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b) {
+  if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
+    throw new invalid_argument(
+        "matrices are not compatible for multiplication");
+  }
+
+  Matrix *matrix_result = AllocateMultiplicationMatrix(matrix_a, matrix_b);
+
+  cout << "Number of CPU Threads: " << omp_get_num_procs() << endl;
+  omp_set_num_threads(omp_get_num_procs());
+
+  double start = omp_get_wtime();
+  #pragma omp parallel for
+  for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
+    #pragma omp parallel for
+    for (size_t k = 0; k < matrix_a.columns_length; k++) {
+      for (size_t column_b = 0; column_b < matrix_b.columns_length;
+           column_b++) {
+        (*matrix_result)(row_a, column_b) +=
+            matrix_a(row_a, k) * matrix_b(k, column_b);
+      }
+    }
+  }
+  double end = omp_get_wtime();
+  char buffer[100];
+  snprintf(buffer, 100, "Time: %3.3f seconds\n",
+           static_cast<double>(end - start));
   cout << buffer;
 
   return matrix_result;

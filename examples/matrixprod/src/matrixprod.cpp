@@ -36,8 +36,10 @@ int main(int argc, char *argv[]) {
 
   int operation = 0;
   do {
-    cout << endl << "1. Multiplication" << endl;
-    cout << "2. Line Multiplication" << endl;
+    cout << endl << "1. Multiplication Serial" << endl;
+    cout << "2. Multiplication Parallel" << endl;
+    cout << "3. Line Multiplication Serial" << endl;
+    cout << "4. Line Multiplication Parallel" << endl;
 
     cout << "Selection?: ";
     cin >> operation;
@@ -70,7 +72,13 @@ int main(int argc, char *argv[]) {
         matrix_result = Matrix::MultiplicationNaiveSerial(matrix_a, matrix_b);
         break;
       case 2:
+        matrix_result = Matrix::MultiplicationNaiveParallel(matrix_a, matrix_b);
+        break;
+      case 3:
         matrix_result = Matrix::MultiplicationLineSerial(matrix_a, matrix_b);
+        break;
+      case 4:
+        matrix_result = Matrix::MultiplicationLineParallel(matrix_a, matrix_b);
         break;
       default:
         cerr << "FAILED: wrong operation";

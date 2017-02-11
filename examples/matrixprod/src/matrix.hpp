@@ -39,9 +39,11 @@ class Matrix {
   size_t GetColumnsLength() const;
 
   static Matrix *MultiplicationNaiveSerial(Matrix &matrix_a, Matrix &matrix_b);
+  static Matrix *MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b);
   static Matrix *MultiplicationLineSerial(Matrix &matrix_a, Matrix &matrix_b);
+  static Matrix *MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b);
 
- private:
+private:
   static bool MultiplicationSizesCheck(Matrix &matrix_a, Matrix &matrix_b);
   static Matrix *AllocateMultiplicationMatrix(Matrix &matrix_a,
                                               Matrix &matrix_b,
