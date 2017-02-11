@@ -1,4 +1,3 @@
-#include <omp.h>
 #include <papi.h>
 #include <iomanip>
 #include <iostream>

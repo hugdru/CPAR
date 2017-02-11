@@ -9,18 +9,18 @@ using namespace std;
 Matrix::Matrix(initializer_list<initializer_list<double>> il_matrix) {
   rows_length = il_matrix.size();
   if (rows_length <= 0) {
-    throw new invalid_argument("number of rows must not be <= zero");
+    throw invalid_argument("number of rows must not be <= zero");
   }
   columns_length = (*il_matrix.begin()).size();
   if (columns_length <= 0) {
-    throw new invalid_argument("number of columns must not be <= zero");
+    throw invalid_argument("number of columns must not be <= zero");
   }
   values = new double[rows_length * columns_length];
 
   size_t index_row = 0;
   for (const auto &row : il_matrix) {
     if (columns_length != row.size()) {
-      throw new invalid_argument(
+      throw invalid_argument(
           "number of columns must be the same for all rows");
     }
     size_t index_column = 0;
@@ -34,10 +34,10 @@ Matrix::Matrix(initializer_list<initializer_list<double>> il_matrix) {
 
 Matrix::Matrix(size_t n_rows_, size_t n_columns_, bool zero) {
   if (n_rows_ <= 0) {
-    throw new invalid_argument("number of rows must be greater than zero");
+    throw invalid_argument("number of rows must be greater than zero");
   }
   if (n_columns_ <= 0) {
-    throw new invalid_argument("number of columns must be greater than zero");
+    throw invalid_argument("number of columns must be greater than zero");
   }
 
   rows_length = n_rows_;
@@ -58,14 +58,14 @@ size_t Matrix::GetColumnsLength() const { return columns_length; }
 
 Matrix *Matrix::MultiplicationNaiveSerial(Matrix &matrix_a, Matrix &matrix_b) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
-    throw new invalid_argument(
+    throw invalid_argument(
         "matrices are not compatible for multiplication");
   }
 
   Matrix *matrix_result =
       AllocateMultiplicationMatrix(matrix_a, matrix_b, false);
 
-  double start = clock();
+  clock_t start = clock();
   for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
     for (size_t column_b = 0; column_b < matrix_b.columns_length; column_b++) {
       double temp_sum = 0;
@@ -75,7 +75,7 @@ Matrix *Matrix::MultiplicationNaiveSerial(Matrix &matrix_a, Matrix &matrix_b) {
       (*matrix_result)(row_a, column_b) = temp_sum;
     }
   }
-  double end = clock();
+  clock_t end = clock();
   char buffer[100];
   snprintf(buffer, 100, "Time: %3.3f seconds\n",
            static_cast<double>(end - start) / CLOCKS_PER_SEC);
@@ -86,7 +86,7 @@ Matrix *Matrix::MultiplicationNaiveSerial(Matrix &matrix_a, Matrix &matrix_b) {
 
 Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b) {
     if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
-        throw new invalid_argument(
+        throw invalid_argument(
                 "matrices are not compatible for multiplication");
     }
 
@@ -111,8 +111,7 @@ Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b) 
     }
     double end = omp_get_wtime();
     char buffer[100];
-    snprintf(buffer, 100, "Time: %3.3f seconds\n",
-             static_cast<double>(end - start));
+    snprintf(buffer, 100, "Time: %3.3f seconds\n", end - start);
     cout << buffer;
 
     return matrix_result;
@@ -120,7 +119,7 @@ Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b) 
 
 Matrix *Matrix::MultiplicationLineSerial(Matrix &matrix_a, Matrix &matrix_b) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
-    throw new invalid_argument(
+    throw invalid_argument(
         "matrices are not compatible for multiplication");
   }
 
@@ -147,7 +146,7 @@ Matrix *Matrix::MultiplicationLineSerial(Matrix &matrix_a, Matrix &matrix_b) {
 
 Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
-    throw new invalid_argument(
+    throw invalid_argument(
         "matrices are not compatible for multiplication");
   }
 
@@ -170,8 +169,7 @@ Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b) {
   }
   double end = omp_get_wtime();
   char buffer[100];
-  snprintf(buffer, 100, "Time: %3.3f seconds\n",
-           static_cast<double>(end - start));
+  snprintf(buffer, 100, "Time: %3.3f seconds\n", end - start);
   cout << buffer;
 
   return matrix_result;

@@ -11,7 +11,10 @@ INCLUDES = -I./src -I/usr/local/include
 CCC = g++ -std=c++14
 
 # library paths
-LIBS = -L/usr/local/lib -lpapi -fopenmp -lpthread
+LIBS = -L/usr/local/lib -lpapi -lpthread
+
+# options
+COMPILE_AND_LINK_COMMON_OPTIONS = -fopenmp
 
 .SUFFIXES: .cpp
 
@@ -24,11 +27,11 @@ release: $(OUT)
 
 ./buildtemp/%.o: src/%
 	mkdir -p ./buildtemp
-	$(CCC) $(INCLUDES) $(CCFLAGS) -c $< -o $@
+	$(CCC) $(INCLUDES) $(CCFLAGS) $(COMPILE_AND_LINK_COMMON_OPTIONS) -c $< -o $@
 
 $(OUT): $(OBJ)
 	mkdir -p bin
-	$(CCC) $(INCLUDES) $(CCFLAGS) $(OBJ) $(LIBS) -o $(OUT)
+	$(CCC) $(INCLUDES) $(CCFLAGS) $(OBJ) $(LIBS) $(COMPILE_AND_LINK_COMMON_OPTIONS) -o $(OUT)
 
 clean:
 	rm -f $(OBJ) $(OUT)
