@@ -11,8 +11,8 @@ static void FillMatrixB(Matrix &matrix);
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  int ret = PAPI_library_init((int)PAPI_VER_CURRENT);
-  if (ret != (int)PAPI_VER_CURRENT) {
+  int ret = PAPI_library_init(static_cast<int>(PAPI_VER_CURRENT));
+  if (ret != static_cast<int>(PAPI_VER_CURRENT)) {
     cerr << "FAILED: PAPI_library_init" << endl;
   }
 

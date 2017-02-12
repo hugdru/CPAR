@@ -24,8 +24,8 @@ Matrix::Matrix(initializer_list<initializer_list<double>> il_matrix) {
           "number of columns must be the same for all rows");
     }
     size_t index_column = 0;
-    for (const auto &column : row) {
-      (*this)(index_row, index_column) = column;
+    for (const auto &value : row) {
+      (*this)(index_row, index_column) = value;
       ++index_column;
     }
     ++index_row;
