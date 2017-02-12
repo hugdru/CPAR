@@ -56,7 +56,7 @@ size_t Matrix::GetRowsLength() const { return rows_length; }
 
 size_t Matrix::GetColumnsLength() const { return columns_length; }
 
-Matrix *Matrix::MultiplicationNaiveSerial(Matrix &matrix_a, Matrix &matrix_b) {
+Matrix *Matrix::MultiplicationNaiveSequential(Matrix &matrix_a, Matrix &matrix_b) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
     throw invalid_argument(
         "matrices are not compatible for multiplication");
@@ -117,7 +117,7 @@ Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b) 
     return matrix_result;
 }
 
-Matrix *Matrix::MultiplicationLineSerial(Matrix &matrix_a, Matrix &matrix_b) {
+Matrix *Matrix::MultiplicationLineSequential(Matrix &matrix_a, Matrix &matrix_b) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
     throw invalid_argument(
         "matrices are not compatible for multiplication");

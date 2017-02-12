@@ -68,13 +68,13 @@ int main(int argc, char *argv[]) {
     Matrix *matrix_result = nullptr;
     switch (operation) {
       case 1:
-        matrix_result = Matrix::MultiplicationNaiveSerial(matrix_a, matrix_b);
+        matrix_result = Matrix::MultiplicationNaiveSequential(matrix_a, matrix_b);
         break;
       case 2:
         matrix_result = Matrix::MultiplicationNaiveParallel(matrix_a, matrix_b);
         break;
       case 3:
-        matrix_result = Matrix::MultiplicationLineSerial(matrix_a, matrix_b);
+        matrix_result = Matrix::MultiplicationLineSequential(matrix_a, matrix_b);
         break;
       case 4:
         matrix_result = Matrix::MultiplicationLineParallel(matrix_a, matrix_b);
