@@ -35,9 +35,9 @@ int main(int argc, char *argv[]) {
 
   int operation = 0;
   do {
-    cout << endl << "1. Multiplication Serial" << endl;
+    cout << endl << "1. Multiplication Sequential" << endl;
     cout << "2. Multiplication Parallel" << endl;
-    cout << "3. Line Multiplication Serial" << endl;
+    cout << "3. Line Multiplication Sequential" << endl;
     cout << "4. Line Multiplication Parallel" << endl;
 
     cout << "Selection?: ";
