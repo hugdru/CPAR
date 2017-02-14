@@ -1,0 +1,66 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "matrixprod", "matrixprod\matrixprod.csproj", "{727F589C-08C1-4FFF-B99A-50D389598CA8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{727F589C-08C1-4FFF-B99A-50D389598CA8}.Debug|x86.ActiveCfg = Debug|x86
+		{727F589C-08C1-4FFF-B99A-50D389598CA8}.Debug|x86.Build.0 = Debug|x86
+		{727F589C-08C1-4FFF-B99A-50D389598CA8}.Release|x86.ActiveCfg = Release|x86
+		{727F589C-08C1-4FFF-B99A-50D389598CA8}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
+		$0.TextStylePolicy = $2
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
+		$2.scope = text/plain
+		$0.CSharpFormattingPolicy = $3
+		$3.IndentSwitchSection = True
+		$3.NewLinesForBracesInProperties = True
+		$3.NewLinesForBracesInAccessors = True
+		$3.NewLinesForBracesInAnonymousMethods = True
+		$3.NewLinesForBracesInControlBlocks = True
+		$3.NewLinesForBracesInAnonymousTypes = True
+		$3.NewLinesForBracesInObjectCollectionArrayInitializers = True
+		$3.NewLinesForBracesInLambdaExpressionBody = True
+		$3.NewLineForElse = True
+		$3.NewLineForCatch = True
+		$3.NewLineForFinally = True
+		$3.NewLineForMembersInObjectInit = True
+		$3.NewLineForMembersInAnonymousTypes = True
+		$3.NewLineForClausesInQuery = True
+		$3.SpacingAfterMethodDeclarationName = False
+		$3.SpaceAfterMethodCallName = False
+		$3.SpaceBeforeOpenSquareBracket = False
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
+		$0.StandardHeader = $4
+		$4.Text = 
+		$4.IncludeInNewFiles = True
+		$0.NameConventionPolicy = $5
+		$5.Rules = $6
+		$6.NamingRule = $7
+		$7.Name = Type Parameters
+		$7.AffectedEntity = TypeParameter
+		$7.VisibilityMask = VisibilityMask
+		$7.NamingStyle = PascalCase
+		$7.IncludeInstanceMembers = True
+		$7.IncludeStaticEntities = True
+		$7.RequiredPrefixes = $8
+		$8.String = T
+		$7.RequiredSuffixes = $9
+		$9.String = Exception
+		$0.VersionControlPolicy = $10
+		$10.inheritsSet = Mono
+	EndGlobalSection
+EndGlobal
