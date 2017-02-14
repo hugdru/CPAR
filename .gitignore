@@ -5,3 +5,5 @@ pkg/
 buildtemp/
 cmake-build-*/
 obj/
+*.pyc
+__pycache__/
