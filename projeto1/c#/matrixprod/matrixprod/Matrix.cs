@@ -4,15 +4,15 @@ namespace matrixprod
 {
     public class Matrix
     {
-        private double[] values;
+        public double[] values;
         public int rowsLength;
         public int columnsLength;
 
-        public double this[int row, int column]
+        /*public double this[int row, int column]
         {
             get { return values[row * columnsLength + column]; }
             set { values[row * columnsLength + column] = value; }
-        }
+        }*/
 
         public Matrix(int rowsLength_, int columnsLength_)
         {
@@ -48,10 +48,12 @@ namespace matrixprod
                 {
                     double tempSum = 0;
                     for (int k = 0; k < matrixA.columnsLength; k++)
-                    {
-                        tempSum += matrixA[rowA, k] * matrixB[k, columnB];
+                    { 
+                        tempSum += matrixA.values[rowA * matrixA.columnsLength + k] * matrixB.values[k * matrixB.columnsLength + columnB];
+                        //tempSum += matrixA[rowA, k] * matrixB[k, columnB];
                     }
-                    matrixResult[rowA, columnB] = tempSum;
+                    matrixResult.values[rowA * matrixResult.columnsLength + columnB] = tempSum;
+                    //matrixResult[rowA, columnB] = tempSum;
                 }
             }
             watch.Stop();
@@ -76,8 +78,9 @@ namespace matrixprod
                 {
                     for (int columnB = 0; columnB < matrixB.columnsLength; columnB++)
                     {
-                        matrixResult[rowA, columnB] +=
-                            matrixA[rowA, k] * matrixB[k, columnB];
+                        matrixResult.values[rowA * matrixResult.columnsLength + columnB] += 
+                            matrixA.values[rowA * matrixA.columnsLength + k] * matrixB.values[k * matrixB.columnsLength + columnB];
+                        //matrixResult[rowA, columnB] += matrixA[rowA, k] * matrixB[k, columnB];
                     }
                 }
             }

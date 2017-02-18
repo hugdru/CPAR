@@ -18,8 +18,6 @@ namespace matrixprod
 
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
             int operation = 0;
             while (true)
             {
@@ -86,7 +84,8 @@ namespace matrixprod
             {
                 for (int column = 0; column < matrix.columnsLength; column++)
                 {
-                    matrix[row, column] = 1.0;
+                    matrix.values[row * matrix.columnsLength + column] = 1.0;
+                    //matrix[row, column] = 1.0;
                 }
             }
         }
@@ -97,7 +96,8 @@ namespace matrixprod
             {
                 for (int column = 0; column < matrix.columnsLength; column++)
                 {
-                    matrix[row, column] = Convert.ToDouble(row + 1);
+                    matrix.values[row * matrix.columnsLength + column] = Convert.ToDouble(row + 1);
+                    //matrix[row, column] = Convert.ToDouble(row + 1);
                 }
             }
         }
@@ -107,7 +107,8 @@ namespace matrixprod
             Console.WriteLine("Result matrix: ");
             for (int column = 0; column < Math.Min(10, matrix.columnsLength); column++)
             {
-                Console.Write("{0}", matrix[0, column].ToString());
+                Console.Write("{0}", matrix.values[column].ToString());
+                //Console.Write("{0}", matrix[0, column].ToString());
             }
             Console.WriteLine();
         }
