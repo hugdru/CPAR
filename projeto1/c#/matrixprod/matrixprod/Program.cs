@@ -17,27 +17,64 @@ namespace matrixprod
         }
 
         public static void Main(string[] args)
-        {
+        {            
             int operation = 0;
-            while (true)
+            int size = 10;
+            var matrixASizes = new InputMatrixSize(size, size);
+            var matrixBSizes = new InputMatrixSize(size, size);
+            bool inLoop = true;
+            while (inLoop)
             {
-                Console.WriteLine("\n1. Multiplication Sequential");
-                Console.WriteLine("2. Line Multiplication Sequential");
-
-                Console.Write("Selection?: ");
-                operation = int.Parse(Console.ReadLine());
-                if (operation == 0)
+                if (args.Length == 2)
                 {
+                    operation = int.Parse(args[0]);
+                    if (operation == 1)
+                    {
+                        Console.Write("1. Multiplication Sequential -> ");
+                    }
+                    else if (operation == 2)
+                    {
+                        Console.Write("2. Line Multiplication Sequential -> ");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid operation.");
+                        break;
+                    }
+                    size = int.Parse(args[1]);
+                    matrixASizes.rowsLength = matrixASizes.columnsLength = matrixBSizes.rowsLength = matrixBSizes.columnsLength = size;
+                    if (matrixASizes.rowsLength <= 1)
+                    {
+                        Console.WriteLine("Invalid dize.");
+                        break;
+                    }
+                    Console.WriteLine("size: " + matrixASizes.rowsLength);
+                    inLoop = false;
+                }
+                else if (args.Length != 0)
+                {
+                    Console.WriteLine("usage: <name> <option> <size>");
                     break;
                 }
+                else
+                {
+                    Console.WriteLine("\n1. Multiplication Sequential");
+                    Console.WriteLine("2. Line Multiplication Sequential");
 
-                Console.Write("Dimensions: matrixA rows columns ? ");
-                var matrixASizes = ReadMatrixSizes();
+                    Console.Write("Selection?: ");
+                    operation = int.Parse(Console.ReadLine());
+                    if (operation == 0)
+                    {
+                        break;
+                    }
 
-                Console.Write("Dimensions: matrixB rows columns ? ");
-                var matrixBSizes = ReadMatrixSizes();
+                    Console.Write("Dimensions: matrixA rows columns ? ");
+                    matrixASizes = ReadMatrixSizes();
 
+                    Console.Write("Dimensions: matrixB rows columns ? ");
+                    matrixBSizes = ReadMatrixSizes();
 
+                }
                 Matrix matrixA = new Matrix(matrixASizes.rowsLength, matrixASizes.columnsLength);
                 FillMatrixA(ref matrixA);
 
