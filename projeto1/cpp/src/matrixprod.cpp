@@ -1,6 +1,7 @@
 #include <papi.h>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 
 #include "matrix.hpp"
 
@@ -34,25 +35,54 @@ int main(int argc, char *argv[]) {
   }
 
   int operation = 0;
+  bool inLoop = true;
   do {
-    cout << endl << "1. Multiplication Sequential" << endl;
-    cout << "2. Multiplication Parallel" << endl;
-    cout << "3. Line Multiplication Sequential" << endl;
-    cout << "4. Line Multiplication Parallel" << endl;
+  	if(argc == 3){
+  		istringstream ss1(argv[1]);
+  		istringstream ss2(argv[2]);
+  		int operation;
+  		size_t size;
+  		if (!(ss1 >> operation) || !(ss2 >> size)){
+    		cerr << "the arguments must be integers " << endl;
+    		break;
+  		}
+    	if(operation == 1){
+			cout << "1. Multiplication Sequential -> ";
+		}else if (operation == 2){
+			cout << "2. Line Multiplication Sequential -> ";
+		}else{
+			cerr << "Invalid operation." << endl;
+			break;
+		}
 
-    cout << "Selection?: ";
-    cin >> operation;
-    if (operation == 0) {
-      break;
-    }
-    printf("Dimensions: matrix_a rows columns ? ");
-    size_t a_rows, a_columns;
-    cin >> a_rows >> a_columns;
+		if(size <= 1){
+			cerr << "Invalid size." << endl;
+			break;
+		}
+		printf("size: %d\n", size);
+		inLoop = false;
+    }else if (argc != 1){
+    	cerr << "usage: " << argv[0] << " <operation> <size>"<< endl;
+    	break;
+    }else{
+	    cout << endl << "1. Multiplication Sequential" << endl;
+	    cout << "2. Multiplication Parallel" << endl;
+	    cout << "3. Line Multiplication Sequential" << endl;
+	    cout << "4. Line Multiplication Parallel" << endl;
 
-    printf("Dimensions: matrix_b rows columns ? ");
-    size_t b_rows, b_columns;
-    cin >> b_rows >> b_columns;
+	    cout << "Selection?: ";
+	    cin >> operation;
+	    if (operation == 0) {
+	      break;
+	    }
+	    printf("Dimensions: matrix_a rows columns ? ");
+	    size_t a_rows, a_columns;
+	    cin >> a_rows >> a_columns;
 
+	    printf("Dimensions: matrix_b rows columns ? ");
+	    size_t b_rows, b_columns;
+	    cin >> b_rows >> b_columns;
+	}
     // Start counting
     ret = PAPI_start(EventSet);
     if (ret != PAPI_OK) {
@@ -101,7 +131,7 @@ int main(int argc, char *argv[]) {
     if (ret != PAPI_OK) {
       cerr << "FAILED: PAPI_reset" << endl;
     }
-  } while (operation != 0);
+  } while (inLoop);
 
   ret = PAPI_remove_event(EventSet, PAPI_L1_DCM);
   if (ret != PAPI_OK) {

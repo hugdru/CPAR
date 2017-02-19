@@ -3,36 +3,73 @@ package main
 import (
 	"fmt"
 	"os"
+	"reflect"
+    "strconv"
 )
 
 func main() {
-	for {
+	args := os.Args[1:]
+	inLoop = true;
+	var aRows, aColumns uint
+	var bRows, bColumns uint
+	for inLoop == true {
 		operation := 0
-		fmt.Println("\n1. Multiplication Sequential")
-		fmt.Println("2. Line Multiplication Sequential")
+		
+		if len(args) == 2 {
+			var err error
+			size := 10;
+    		if operation, err = strconv.Atoi(args[0]); err != nil {
+        		panic(err)
+    			break
+    		}
+			if size, err = strconv.Atoi(args[1]); err != nil {
+        		panic(err)
+        		break
+    		}
 
-		fmt.Print("Selection?: ")
-		_, err := fmt.Scan(&operation)
-		if err != nil {
-			panic("FAILED: Scan, expecting a valid operation")
-		}
+    		if operation == 1 {
+				fmt.Print("1. Multiplication Sequential -> ")
+			}else if operation == 2 {
+				fmt.Print("2. Line Multiplication Sequential -> ");
+			}else{
+				fmt.Println("Invalid operation.");
+				break;
+			}
+			if size <= 1 {
+				fmt.Println("Invalid size.");
+				break;
+			}
+			fmt.Println("size:", size);
+    		aRows = aColumns = bRows = bColumns = size 
+    		inLoop = false;
+		}else if len(args) != 0{
+			fmt.Print("Usage:" , os.Args[0], "<operation> <size>");
+		}else{
 
-		if operation == 0 {
-			break
-		}
+			fmt.Println("\n1. Multiplication Sequential")
+			fmt.Println("2. Line Multiplication Sequential")
 
-		var aRows, aColumns uint
-		fmt.Print("Dimensions: matrix_a rows columns ? ")
-		_, err = fmt.Scan(&aRows, &aColumns)
-		if err != nil {
-			panic("FAILED: Scan, expecting two uint rows and columns")
-		}
+			fmt.Print("Selection?: ")
+			_, err := fmt.Scan(&operation)
+			if err != nil {
+				panic("FAILED: Scan, expecting a valid operation")
+			}
 
-		var bRows, bColumns uint
-		fmt.Print("Dimensions: matrix_b rows columns ? ")
-		_, err = fmt.Scan(&bRows, &bColumns)
-		if err != nil {
-			panic("FAILED: Scan, expecting two uint rows and columns")
+			if operation == 0 {
+				break
+			}
+			
+			fmt.Print("Dimensions: matrix_a rows columns ? ")
+			_, err = fmt.Scan(&aRows, &aColumns)
+			if err != nil {
+				panic("FAILED: Scan, expecting two uint rows and columns")
+			}
+
+			fmt.Print("Dimensions: matrix_b rows columns ? ")
+			_, err = fmt.Scan(&bRows, &bColumns)
+			if err != nil {
+				panic("FAILED: Scan, expecting two uint rows and columns")
+			}
 		}
 
 		matrixA := BuildMatrix(aRows, aColumns)
@@ -84,4 +121,12 @@ func min(a, b uint) uint {
 		return a
 	}
 	return b
+}
+
+func FastConcat(strings ...string) string {
+	var buffer bytes.Buffer
+	for i := range strings {
+		buffer.WriteString(strings[i])
+	}
+	return buffer.String()
 }
