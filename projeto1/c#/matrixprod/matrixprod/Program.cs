@@ -27,7 +27,6 @@ namespace matrixprod
             {
                 if (args.Length == 2)
                 {
-                    Console.WriteLine(args[0] + " " + args[1] );
                     operation = int.Parse(args[0]);
                     if (operation == 1)
                     {

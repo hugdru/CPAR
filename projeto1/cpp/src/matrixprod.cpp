@@ -35,22 +35,27 @@ int main(int argc, char *argv[]) {
   }
 
   int operation = 0;
+  size_t a_rows, a_columns;
+  size_t b_rows, b_columns;
   bool inLoop = true;
   do {
   	if(argc == 3){
   		istringstream ss1(argv[1]);
   		istringstream ss2(argv[2]);
-  		int operation;
   		size_t size;
   		if (!(ss1 >> operation) || !(ss2 >> size)){
     		cerr << "the arguments must be integers " << endl;
     		break;
   		}
-    	if(operation == 1){
+    if(operation == 1){
 			cout << "1. Multiplication Sequential -> ";
 		}else if (operation == 2){
 			cout << "2. Line Multiplication Sequential -> ";
-		}else{
+		}else if (operation == 3){
+      cout << "3. Line Multiplication Parallel -> ";
+    }else if (operation == 4){
+      cout << "4. Line Multiplication Parallel -> ";
+    }else{
 			cerr << "Invalid operation." << endl;
 			break;
 		}
@@ -59,7 +64,11 @@ int main(int argc, char *argv[]) {
 			cerr << "Invalid size." << endl;
 			break;
 		}
-		printf("size: %d\n", size);
+		printf("size: %ld\n", size);
+    a_rows = size;
+    a_columns = size;
+    b_rows = size;
+    b_columns = size;
 		inLoop = false;
     }else if (argc != 1){
     	cerr << "usage: " << argv[0] << " <operation> <size>"<< endl;
@@ -76,11 +85,9 @@ int main(int argc, char *argv[]) {
 	      break;
 	    }
 	    printf("Dimensions: matrix_a rows columns ? ");
-	    size_t a_rows, a_columns;
 	    cin >> a_rows >> a_columns;
 
 	    printf("Dimensions: matrix_b rows columns ? ");
-	    size_t b_rows, b_columns;
 	    cin >> b_rows >> b_columns;
 	}
     // Start counting

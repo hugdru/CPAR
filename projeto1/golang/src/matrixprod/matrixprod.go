@@ -3,15 +3,14 @@ package main
 import (
 	"fmt"
 	"os"
-	"reflect"
     "strconv"
 )
 
 func main() {
 	args := os.Args[1:]
-	inLoop = true;
-	var aRows, aColumns uint
-	var bRows, bColumns uint
+	inLoop := true;
+	var aRows, aColumns int
+	var bRows, bColumns int
 	for inLoop == true {
 		operation := 0
 		
@@ -30,20 +29,24 @@ func main() {
     		if operation == 1 {
 				fmt.Print("1. Multiplication Sequential -> ")
 			}else if operation == 2 {
-				fmt.Print("2. Line Multiplication Sequential -> ");
+				fmt.Print("2. Line Multiplication Sequential -> ")
 			}else{
-				fmt.Println("Invalid operation.");
-				break;
+				fmt.Println("Invalid operation.")
+				break
 			}
 			if size <= 1 {
-				fmt.Println("Invalid size.");
-				break;
+				fmt.Println("Invalid size.")
+				break
 			}
-			fmt.Println("size:", size);
-    		aRows = aColumns = bRows = bColumns = size 
-    		inLoop = false;
+			fmt.Println("size:", size)
+    		aRows = size
+    		aColumns = size
+    		bRows = size
+    		bColumns = size 
+    		inLoop = false
 		}else if len(args) != 0{
-			fmt.Print("Usage:" , os.Args[0], "<operation> <size>");
+			fmt.Print("Usage:" , os.Args[0], "<operation> <size>")
+			break
 		}else{
 
 			fmt.Println("\n1. Multiplication Sequential")
@@ -95,38 +98,30 @@ func main() {
 
 func printMatrix(matrix *Matrix) {
 	fmt.Println("Result matrix: ")
-	for column := uint(0); column < min(10, matrix.ColumnsLength); column++ {
+	for column := int(0); column < min(10, matrix.ColumnsLength); column++ {
 		fmt.Print(matrix.Get(0, column), " ")
 	}
 	fmt.Println()
 }
 
 func fillMatrixA(matrix *Matrix) {
-	for row := uint(0); row < matrix.RowsLength; row++ {
-		for column := uint(0); column < matrix.ColumnsLength; column++ {
+	for row := int(0); row < matrix.RowsLength; row++ {
+		for column := int(0); column < matrix.ColumnsLength; column++ {
 			*matrix.GetPtr(row, column) = 1.0
 		}
 	}
 }
 func fillMatrixB(matrix *Matrix) {
-	for row := uint(0); row < matrix.RowsLength; row++ {
-		for column := uint(0); column < matrix.ColumnsLength; column++ {
+	for row := int(0); row < matrix.RowsLength; row++ {
+		for column := int(0); column < matrix.ColumnsLength; column++ {
 			*matrix.GetPtr(row, column) = float64(row + 1)
 		}
 	}
 }
 
-func min(a, b uint) uint {
+func min(a, b int) int {
 	if a < b {
 		return a
 	}
 	return b
-}
-
-func FastConcat(strings ...string) string {
-	var buffer bytes.Buffer
-	for i := range strings {
-		buffer.WriteString(strings[i])
-	}
-	return buffer.String()
 }

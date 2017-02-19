@@ -7,11 +7,11 @@ import (
 
 type Matrix struct {
 	values        []float64
-	RowsLength    uint
-	ColumnsLength uint
+	RowsLength    int
+	ColumnsLength int
 }
 
-func BuildMatrix(rowsLength, columnsLength uint) *Matrix {
+func BuildMatrix(rowsLength, columnsLength int) *Matrix {
 	if rowsLength <= 0 {
 		panic("FAILED: Matrix, number of rows must be greater than zero")
 	}
@@ -27,11 +27,11 @@ func BuildMatrix(rowsLength, columnsLength uint) *Matrix {
 	}
 }
 
-func (matrix *Matrix) Get(row, column uint) float64 {
+func (matrix *Matrix) Get(row, column int) float64 {
 	return matrix.values[row*matrix.ColumnsLength+column]
 }
 
-func (matrix *Matrix) GetPtr(row, column uint) *float64 {
+func (matrix *Matrix) GetPtr(row, column int) *float64 {
 	return &matrix.values[row*matrix.ColumnsLength+column]
 }
 
@@ -44,10 +44,10 @@ func MultiplicationNaiveSequential(matrixA, matrixB *Matrix) *Matrix {
 	matrixResult := allocateMultiplicationMatrix(matrixA, matrixB)
 
 	start := time.Now()
-	for rowA := uint(0); rowA < matrixA.RowsLength; rowA++ {
-		for columnB := uint(0); columnB < matrixB.ColumnsLength; columnB++ {
+	for rowA := int(0); rowA < matrixA.RowsLength; rowA++ {
+		for columnB := int(0); columnB < matrixB.ColumnsLength; columnB++ {
 			var tempSum float64 = 0.0
-			for k := uint(0); k < matrixA.ColumnsLength; k++ {
+			for k := int(0); k < matrixA.ColumnsLength; k++ {
 				//tempSum += matrixA.Get(rowA, k) * matrixB.Get(k, columnB)
 				tempSum +=
 					matrixA.values[rowA*matrixA.ColumnsLength+k] *
@@ -72,9 +72,9 @@ func MultiplicationLineSequential(matrixA, matrixB *Matrix) *Matrix {
 	matrixResult := allocateMultiplicationMatrix(matrixA, matrixB)
 
 	start := time.Now()
-	for rowA := uint(0); rowA < matrixA.RowsLength; rowA++ {
-		for k := uint(0); k < matrixA.ColumnsLength; k++ {
-			for columnB := uint(0); columnB < matrixB.ColumnsLength; columnB++ {
+	for rowA := int(0); rowA < matrixA.RowsLength; rowA++ {
+		for k := int(0); k < matrixA.ColumnsLength; k++ {
+			for columnB := int(0); columnB < matrixB.ColumnsLength; columnB++ {
 				//*matrixResult.GetPtr(rowA, columnB) += matrixA.Get(rowA, k) * matrixB.Get(k, columnB)
 				matrixResult.values[rowA*matrixResult.ColumnsLength+columnB] +=
 					matrixA.values[rowA*matrixA.ColumnsLength+k] *
