@@ -6,7 +6,7 @@ import (
 )
 
 type Matrix struct {
-	values        []float64
+	Values        []float64
 	RowsLength    uint
 	ColumnsLength uint
 }
@@ -21,18 +21,18 @@ func BuildMatrix(rowsLength, columnsLength uint) *Matrix {
 	}
 
 	return &Matrix{
-		values:        make([]float64, rowsLength*columnsLength),
+		Values:        make([]float64, rowsLength*columnsLength),
 		RowsLength:    rowsLength,
 		ColumnsLength: columnsLength,
 	}
 }
 
 func (matrix *Matrix) Get(row, column uint) float64 {
-	return matrix.values[row*matrix.ColumnsLength+column]
+	return matrix.Values[row*matrix.ColumnsLength+column]
 }
 
 func (matrix *Matrix) GetPtr(row, column uint) *float64 {
-	return &matrix.values[row*matrix.ColumnsLength+column]
+	return &matrix.Values[row*matrix.ColumnsLength+column]
 }
 
 func MultiplicationNaiveSequential(matrixA, matrixB *Matrix) *Matrix {
@@ -50,11 +50,11 @@ func MultiplicationNaiveSequential(matrixA, matrixB *Matrix) *Matrix {
 			for k := uint(0); k < matrixA.ColumnsLength; k++ {
 				//tempSum += matrixA.Get(rowA, k) * matrixB.Get(k, columnB)
 				tempSum +=
-					matrixA.values[rowA*matrixA.ColumnsLength+k] *
-						matrixB.values[k*matrixB.ColumnsLength+columnB]
+					matrixA.Values[rowA*matrixA.ColumnsLength+k] *
+						matrixB.Values[k*matrixB.ColumnsLength+columnB]
 			}
 			//*matrixResult.GetPtr(rowA, columnB) = tempSum
-			matrixResult.values[rowA*matrixResult.ColumnsLength+columnB] = tempSum
+			matrixResult.Values[rowA*matrixResult.ColumnsLength+columnB] = tempSum
 		}
 	}
 	elapsed := time.Since(start)
@@ -76,9 +76,9 @@ func MultiplicationLineSequential(matrixA, matrixB *Matrix) *Matrix {
 		for k := uint(0); k < matrixA.ColumnsLength; k++ {
 			for columnB := uint(0); columnB < matrixB.ColumnsLength; columnB++ {
 				//*matrixResult.GetPtr(rowA, columnB) += matrixA.Get(rowA, k) * matrixB.Get(k, columnB)
-				matrixResult.values[rowA*matrixResult.ColumnsLength+columnB] +=
-					matrixA.values[rowA*matrixA.ColumnsLength+k] *
-						matrixB.values[k*matrixB.ColumnsLength+columnB]
+				matrixResult.Values[rowA*matrixResult.ColumnsLength+columnB] +=
+					matrixA.Values[rowA*matrixA.ColumnsLength+k] *
+						matrixB.Values[k*matrixB.ColumnsLength+columnB]
 			}
 		}
 	}

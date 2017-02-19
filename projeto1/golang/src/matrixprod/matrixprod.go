@@ -59,7 +59,8 @@ func main() {
 func printMatrix(matrix *Matrix) {
 	fmt.Println("Result matrix: ")
 	for column := uint(0); column < min(10, matrix.ColumnsLength); column++ {
-		fmt.Print(matrix.Get(0, column), " ")
+		//fmt.Print(matrix.Get(0, column), " ")
+		fmt.Print(matrix.Values[column], " ")
 	}
 	fmt.Println()
 }
@@ -67,14 +68,16 @@ func printMatrix(matrix *Matrix) {
 func fillMatrixA(matrix *Matrix) {
 	for row := uint(0); row < matrix.RowsLength; row++ {
 		for column := uint(0); column < matrix.ColumnsLength; column++ {
-			*matrix.GetPtr(row, column) = 1.0
+			//*matrix.GetPtr(row, column) = 1.0
+			matrix.Values[row * matrix.ColumnsLength + column] = 1.0
 		}
 	}
 }
 func fillMatrixB(matrix *Matrix) {
 	for row := uint(0); row < matrix.RowsLength; row++ {
 		for column := uint(0); column < matrix.ColumnsLength; column++ {
-			*matrix.GetPtr(row, column) = float64(row + 1)
+			//*matrix.GetPtr(row, column) = float64(row + 1)
+			matrix.Values[row * matrix.ColumnsLength + column] = float64(row + 1)
 		}
 	}
 }

@@ -25,6 +25,12 @@ debug: $(OUT)
 release: CCFLAGS = -O2 -pipe -s -DNDEBUG -D_FORTIFY_SOURCE=1 -fstack-protector-strong -Wall -Wdisabled-optimization -Wstack-protector -Winline
 release: $(OUT)
 
+releaseO2: CCFLAGS = -O2 -pipe -s -DNDEBUG -Wall -Wdisabled-optimization -Wstack-protector -Winline
+releaseO2: $(OUT)
+
+releaseO3: CCFLAGS = -O3 -pipe -s -DNDEBUG -Wall -Wdisabled-optimization -Wstack-protector -Winline
+releaseO3: $(OUT)
+
 ./buildtemp/%.o: src/%
 	mkdir -p ./buildtemp
 	$(CCC) $(INCLUDES) $(CCFLAGS) $(COMPILE_AND_LINK_COMMON_OPTIONS) -c $< -o $@
