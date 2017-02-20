@@ -89,21 +89,21 @@ public class Matrixprod {
 	}
 
 	private static void FillMatrixA(Matrix matrix) {
-		for (int row = 0; row < matrix.getRowsLength(); row++)
-			for (int column = 0; column < matrix.getColumnsLength(); column++)
-				matrix.getValues()[row * matrix.getColumnsLength() + column] = 1.0;
+		for (int row = 0; row < matrix.rows_length; row++)
+			for (int column = 0; column < matrix.columns_length; column++)
+				matrix.values[row * matrix.columns_length + column] = 1.0;
 	}
 
 	private static void FillMatrixB(Matrix matrix) {
-		for (int row = 0; row < matrix.getRowsLength(); row++)
-			for (int column = 0; column < matrix.getColumnsLength(); column++)
-				matrix.getValues()[row * matrix.getColumnsLength() + column] = (double) (row + 1.0);
+		for (int row = 0; row < matrix.rows_length; row++)
+			for (int column = 0; column < matrix.columns_length; column++)
+				matrix.values[row * matrix.columns_length + column] = (double) (row + 1.0);
 	}
 
 	private static void PrintMatrix(Matrix matrix) {
 		System.out.println("Result matrix: ");
-		for (int column = 0; column < Math.min(10, matrix.getColumnsLength()); column++)
-			System.out.print(matrix.getValues()[0 * matrix.getColumnsLength() + column] + " ");
+		for (int column = 0; column < Math.min(10, matrix.columns_length); column++)
+			System.out.print(matrix.values[0 * matrix.columns_length + column] + " ");
 		System.out.println();
 	}
 }
