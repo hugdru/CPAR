@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 cd "${0%/*}"
 
 bin="./matrixprod/matrixprod/bin/Release/matrixprod.exe"

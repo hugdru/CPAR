@@ -8,7 +8,7 @@ OUT = bin/matrixprod
 INCLUDES = -I./src -I/usr/local/include
 
 # compiler
-CCC = g++-6 -std=c++14
+CCC = g++ -std=c++14
 
 # library paths
 LIBS = -L/usr/local/lib -lpapi -lpthread
