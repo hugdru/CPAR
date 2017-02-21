@@ -4,7 +4,7 @@ set -e
 
 cd "${0%/*}"
 
-bin="./matrixprod/matrixprod/bin/Release/matrixprod.exe"
+bin="./matrixprod/bin/Release/matrixprod.exe"
 
 if [[ ! -f "$bin" ]]; then
   1>&2 echo "$bin not found compile for Release."
