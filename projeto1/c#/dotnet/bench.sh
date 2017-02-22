@@ -8,6 +8,7 @@ main() {
   dotnet build -c Release
 
   bench 1 600 400 3000 3
+  bench 2 600 400 3000 3
   bench 2 4000 2000 10000 3
 }
 

@@ -3,6 +3,48 @@ import re
 from os import walk
 
 
+def cmp(a,b):
+	return (a>b)-(a<b)
+
+
+def _compare_keys(x_file, y_file):
+    try:
+        x = int(x_file)
+    except ValueError:
+        xint = False
+    else:
+        xint = True
+    try:
+        y = int(y_file)
+    except ValueError:
+        if xint:
+            return -1
+        return cmp(x.lower(), y.lower())
+    else:
+        if xint:
+            return cmp(x,y)
+        return 1
+
+def cmp_to_key(mycmp):
+    class K(object):
+        def __init__(self, obj, *args):
+            self.obj = obj
+        def __lt__(self, other):
+            return mycmp(self.obj, other.obj) < 0
+        def __gt__(self, other):
+            return mycmp(self.obj, other.obj) > 0
+        def __eq__(self, other):
+            return mycmp(self.obj, other.obj) == 0
+        def __le__(self, other):
+            return mycmp(self.obj, other.obj) <= 0  
+        def __ge__(self, other):
+            return mycmp(self.obj, other.obj) >= 0
+        def __ne__(self, other):
+            return mycmp(self.obj, other.obj) != 0
+    return K
+
+
+
 def get_result_value_int(num):
     try:
         return str(int(num))
@@ -12,7 +54,7 @@ def get_result_value_int(num):
 
 def convert_files(files_map):
     out_file = open("converted.csv", "w")
-    for key in files_map:
+    for key in sorted(files_map,key=cmp_to_key(_compare_keys)):
         time = []
         bus_cycles = []
         cache_misses = []
@@ -29,7 +71,8 @@ def convert_files(files_map):
         l1_icache_load_misses = []
 
         for file in files_map[key]:
-            in_file = open(file, "r")
+            in_file = open(sys.argv[1] + "/" + file, "r")
+            print("adding: " + file)
             for i, line in enumerate(in_file):
                 if i == 1:
                     time.append('{:.3f}'.format(float(line[:-1])))
@@ -86,7 +129,6 @@ def main():
         print('Usage: ' + str(sys.argv[0]) + ' <folder path>')
         return
 
-    f = [["" for i in range(3)]]
     map = {}
     for root, dirs, files in walk(sys.argv[1]):
         for file in files:
@@ -94,7 +136,7 @@ def main():
             if re.search("\d+_\d+.txt", file, flags=0):
                 if key not in map:
                     map[key] = []
-                map[key].append(file)
+                map[key].append(file)            
     convert_files(map)
 
 
