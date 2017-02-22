@@ -1,0 +1,1 @@
+python3 converter.py <path to file directory created by ./bench>
