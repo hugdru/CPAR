@@ -12,7 +12,6 @@ static void FillMatrixB(Matrix &matrix);
 using namespace std;
 
 int main(int argc, char *argv[]) {
-
   Papi papi = Papi();
 
   papi.Init();
@@ -23,57 +22,57 @@ int main(int argc, char *argv[]) {
   size_t b_rows, b_columns;
   bool inLoop = true;
   do {
-  	if(argc == 3){
-  		istringstream ss1(argv[1]);
-  		istringstream ss2(argv[2]);
-  		size_t size;
-  		if (!(ss1 >> operation) || !(ss2 >> size)){
-    		cerr << "the arguments must be integers " << endl;
-    		break;
-  		}
-    if(operation == 1){
-			cout << "1. Multiplication Sequential -> ";
-		}else if (operation == 2){
-			cout << "2. Line Multiplication Sequential -> ";
-		}else if (operation == 3){
-      cout << "3. Line Multiplication Parallel -> ";
-    }else if (operation == 4){
-      cout << "4. Line Multiplication Parallel -> ";
-    }else{
-			cerr << "Invalid operation." << endl;
-			break;
-		}
+    if (argc == 3) {
+      istringstream ss1(argv[1]);
+      istringstream ss2(argv[2]);
+      size_t size;
+      if (!(ss1 >> operation) || !(ss2 >> size)) {
+        cerr << "the arguments must be integers " << endl;
+        break;
+      }
+      if (operation == 1) {
+        cout << "1. Multiplication Sequential -> ";
+      } else if (operation == 2) {
+        cout << "2. Line Multiplication Sequential -> ";
+      } else if (operation == 3) {
+        cout << "3. Line Multiplication Parallel -> ";
+      } else if (operation == 4) {
+        cout << "4. Line Multiplication Parallel -> ";
+      } else {
+        cerr << "Invalid operation." << endl;
+        break;
+      }
 
-		if(size <= 1){
-			cerr << "Invalid size." << endl;
-			break;
-		}
-		printf("size: %ld\n", size);
-    a_rows = size;
-    a_columns = size;
-    b_rows = size;
-    b_columns = size;
-		inLoop = false;
-    }else if (argc != 1){
-    	cerr << "usage: " << argv[0] << " <operation> <size>"<< endl;
-    	break;
-    }else{
-	    cout << endl << "1. Multiplication Sequential" << endl;
-	    cout << "2. Multiplication Parallel" << endl;
-	    cout << "3. Line Multiplication Sequential" << endl;
-	    cout << "4. Line Multiplication Parallel" << endl;
+      if (size <= 1) {
+        cerr << "Invalid size." << endl;
+        break;
+      }
+      printf("size: %ld\n", size);
+      a_rows = size;
+      a_columns = size;
+      b_rows = size;
+      b_columns = size;
+      inLoop = false;
+    } else if (argc != 1) {
+      cerr << "usage: " << argv[0] << " <operation> <size>" << endl;
+      break;
+    } else {
+      cout << endl << "1. Multiplication Sequential" << endl;
+      cout << "2. Multiplication Parallel" << endl;
+      cout << "3. Line Multiplication Sequential" << endl;
+      cout << "4. Line Multiplication Parallel" << endl;
 
-	    cout << "Selection?: ";
-	    cin >> operation;
-	    if (operation == 0) {
-	      break;
-	    }
-	    printf("Dimensions: matrix_a rows columns ? ");
-	    cin >> a_rows >> a_columns;
+      cout << "Selection?: ";
+      cin >> operation;
+      if (operation == 0) {
+        break;
+      }
+      printf("Dimensions: matrix_a rows columns ? ");
+      cin >> a_rows >> a_columns;
 
-	    printf("Dimensions: matrix_b rows columns ? ");
-	    cin >> b_rows >> b_columns;
-	}
+      printf("Dimensions: matrix_b rows columns ? ");
+      cin >> b_rows >> b_columns;
+    }
 
     papi.Start();
 
@@ -86,13 +85,15 @@ int main(int argc, char *argv[]) {
     Matrix *matrix_result = nullptr;
     switch (operation) {
       case 1:
-        matrix_result = Matrix::MultiplicationNaiveSequential(matrix_a, matrix_b);
+        matrix_result =
+            Matrix::MultiplicationNaiveSequential(matrix_a, matrix_b);
         break;
       case 2:
         matrix_result = Matrix::MultiplicationNaiveParallel(matrix_a, matrix_b);
         break;
       case 3:
-        matrix_result = Matrix::MultiplicationLineSequential(matrix_a, matrix_b);
+        matrix_result =
+            Matrix::MultiplicationLineSequential(matrix_a, matrix_b);
         break;
       case 4:
         matrix_result = Matrix::MultiplicationLineParallel(matrix_a, matrix_b);

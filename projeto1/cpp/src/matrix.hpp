@@ -38,12 +38,15 @@ class Matrix {
   size_t GetRowsLength() const;
   size_t GetColumnsLength() const;
 
-  static Matrix *MultiplicationNaiveSequential(Matrix &matrix_a, Matrix &matrix_b);
-  static Matrix *MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b);
-  static Matrix *MultiplicationLineSequential(Matrix &matrix_a, Matrix &matrix_b);
+  static Matrix *MultiplicationNaiveSequential(Matrix &matrix_a,
+                                               Matrix &matrix_b);
+  static Matrix *MultiplicationNaiveParallel(Matrix &matrix_a,
+                                             Matrix &matrix_b);
+  static Matrix *MultiplicationLineSequential(Matrix &matrix_a,
+                                              Matrix &matrix_b);
   static Matrix *MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b);
 
-private:
+ private:
   static bool MultiplicationSizesCheck(Matrix &matrix_a, Matrix &matrix_b);
   static Matrix *AllocateMultiplicationMatrix(Matrix &matrix_a,
                                               Matrix &matrix_b,

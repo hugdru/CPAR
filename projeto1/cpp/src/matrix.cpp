@@ -1,7 +1,7 @@
 #include "matrix.hpp"
 
-#include <ctime>
 #include <omp.h>
+#include <ctime>
 #include <iostream>
 
 using namespace std;
@@ -20,8 +20,7 @@ Matrix::Matrix(initializer_list<initializer_list<double>> il_matrix) {
   size_t index_row = 0;
   for (const auto &row : il_matrix) {
     if (columns_length != row.size()) {
-      throw invalid_argument(
-          "number of columns must be the same for all rows");
+      throw invalid_argument("number of columns must be the same for all rows");
     }
     size_t index_column = 0;
     for (const auto &value : row) {
@@ -56,10 +55,10 @@ size_t Matrix::GetRowsLength() const { return rows_length; }
 
 size_t Matrix::GetColumnsLength() const { return columns_length; }
 
-Matrix *Matrix::MultiplicationNaiveSequential(Matrix &matrix_a, Matrix &matrix_b) {
+Matrix *Matrix::MultiplicationNaiveSequential(Matrix &matrix_a,
+                                              Matrix &matrix_b) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
-    throw invalid_argument(
-        "matrices are not compatible for multiplication");
+    throw invalid_argument("matrices are not compatible for multiplication");
   }
 
   Matrix *matrix_result =
@@ -84,43 +83,43 @@ Matrix *Matrix::MultiplicationNaiveSequential(Matrix &matrix_a, Matrix &matrix_b
   return matrix_result;
 }
 
-Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b) {
-    if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
-        throw invalid_argument(
-                "matrices are not compatible for multiplication");
+Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a,
+                                            Matrix &matrix_b) {
+  if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
+    throw invalid_argument("matrices are not compatible for multiplication");
+  }
+
+  Matrix *matrix_result =
+      AllocateMultiplicationMatrix(matrix_a, matrix_b, false);
+
+  cout << "Number of CPU Threads: " << omp_get_num_procs() << endl;
+  omp_set_num_threads(omp_get_num_procs());
+
+  double start = omp_get_wtime();
+#pragma omp parallel for
+  for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
+#pragma omp parallel for
+    for (size_t column_b = 0; column_b < matrix_b.columns_length; column_b++) {
+      double temp_sum = 0.0;
+#pragma omp parallel for reduction(+ : temp_sum)
+      for (size_t k = 0; k < matrix_a.columns_length; k++) {
+        temp_sum += matrix_a(row_a, k) * matrix_b(k, column_b);
+      }
+      (*matrix_result)(row_a, column_b) = temp_sum;
     }
+  }
+  double end = omp_get_wtime();
+  char buffer[100];
+  snprintf(buffer, 100, "%3.3f seconds\n", end - start);
+  cout << buffer;
 
-    Matrix *matrix_result =
-            AllocateMultiplicationMatrix(matrix_a, matrix_b, false);
-
-    cout << "Number of CPU Threads: " << omp_get_num_procs() << endl;
-    omp_set_num_threads(omp_get_num_procs());
-
-    double start = omp_get_wtime();
-    #pragma omp parallel for
-    for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
-        #pragma omp parallel for
-        for (size_t column_b = 0; column_b < matrix_b.columns_length; column_b++) {
-            double temp_sum = 0.0;
-            #pragma omp parallel for reduction(+:temp_sum)
-            for (size_t k = 0; k < matrix_a.columns_length; k++) {
-                temp_sum += matrix_a(row_a, k) * matrix_b(k, column_b);
-            }
-            (*matrix_result)(row_a, column_b) = temp_sum;
-        }
-    }
-    double end = omp_get_wtime();
-    char buffer[100];
-    snprintf(buffer, 100, "%3.3f seconds\n", end - start);
-    cout << buffer;
-
-    return matrix_result;
+  return matrix_result;
 }
 
-Matrix *Matrix::MultiplicationLineSequential(Matrix &matrix_a, Matrix &matrix_b) {
+Matrix *Matrix::MultiplicationLineSequential(Matrix &matrix_a,
+                                             Matrix &matrix_b) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
-    throw invalid_argument(
-        "matrices are not compatible for multiplication");
+    throw invalid_argument("matrices are not compatible for multiplication");
   }
 
   Matrix *matrix_result = AllocateMultiplicationMatrix(matrix_a, matrix_b);
@@ -146,8 +145,7 @@ Matrix *Matrix::MultiplicationLineSequential(Matrix &matrix_a, Matrix &matrix_b)
 
 Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
-    throw invalid_argument(
-        "matrices are not compatible for multiplication");
+    throw invalid_argument("matrices are not compatible for multiplication");
   }
 
   Matrix *matrix_result = AllocateMultiplicationMatrix(matrix_a, matrix_b);
@@ -156,9 +154,9 @@ Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b) {
   omp_set_num_threads(omp_get_num_procs());
 
   double start = omp_get_wtime();
-  #pragma omp parallel for
+#pragma omp parallel for
   for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
-    #pragma omp parallel for
+#pragma omp parallel for
     for (size_t k = 0; k < matrix_a.columns_length; k++) {
       for (size_t column_b = 0; column_b < matrix_b.columns_length;
            column_b++) {
