@@ -1,9 +1,9 @@
 #include <papi.h>
 #include <iomanip>
 #include <iostream>
-#include <sstream>
 
 #include "matrix.hpp"
+#include "papi.hpp"
 
 static void PrintMatrix(Matrix &matrix);
 static void FillMatrixA(Matrix &matrix);
@@ -12,27 +12,11 @@ static void FillMatrixB(Matrix &matrix);
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  int ret = PAPI_library_init(static_cast<int>(PAPI_VER_CURRENT));
-  if (ret != static_cast<int>(PAPI_VER_CURRENT)) {
-    cerr << "FAILED: PAPI_library_init" << endl;
-  }
 
-  int EventSet = PAPI_NULL;
+  Papi papi = Papi();
 
-  ret = PAPI_create_eventset(&EventSet);
-  if (ret != PAPI_OK) {
-    cerr << "FAILED: PAPI_create_eventset" << endl;
-  }
-
-  ret = PAPI_add_event(EventSet, PAPI_L1_DCM);
-  if (ret != PAPI_OK) {
-    cerr << "FAILED: PAPI_add_event PAPI_L1_DCM" << endl;
-  }
-
-  ret = PAPI_add_event(EventSet, PAPI_L2_DCM);
-  if (ret != PAPI_OK) {
-    cerr << "FAILED: PAPI_add_event PAPI_L2_DCM" << endl;
-  }
+  papi.Init();
+  papi.InstallEvents();
 
   int operation = 0;
   size_t a_rows, a_columns;
@@ -90,11 +74,8 @@ int main(int argc, char *argv[]) {
 	    printf("Dimensions: matrix_b rows columns ? ");
 	    cin >> b_rows >> b_columns;
 	}
-    // Start counting
-    ret = PAPI_start(EventSet);
-    if (ret != PAPI_OK) {
-      cerr << "FAILED: PAPI_start" << endl;
-    }
+
+    papi.Start();
 
     Matrix matrix_a(a_rows, a_columns);
     FillMatrixA(matrix_a);
@@ -125,35 +106,9 @@ int main(int argc, char *argv[]) {
       matrix_result = nullptr;
     }
 
-    long long values[2];
-    ret = PAPI_stop(EventSet, values);
-    if (ret != PAPI_OK) {
-      cerr << "FAILED: PAPI_stop" << endl;
-    } else {
-      printf("L1 DCM: %lld \n", values[0]);
-      printf("L2 DCM: %lld \n", values[1]);
-    }
+    papi.StopAndReset();
 
-    ret = PAPI_reset(EventSet);
-    if (ret != PAPI_OK) {
-      cerr << "FAILED: PAPI_reset" << endl;
-    }
   } while (inLoop);
-
-  ret = PAPI_remove_event(EventSet, PAPI_L1_DCM);
-  if (ret != PAPI_OK) {
-    cerr << "FAILED: PAPI_remove_event" << endl;
-  }
-
-  ret = PAPI_remove_event(EventSet, PAPI_L2_DCM);
-  if (ret != PAPI_OK) {
-    cerr << "FAILED: PAPI_remove_event" << endl;
-  }
-
-  ret = PAPI_destroy_eventset(&EventSet);
-  if (ret != PAPI_OK) {
-    cerr << "FAILED: PAPI_destroy_eventset" << endl;
-  }
 }
 
 static void FillMatrixA(Matrix &matrix) {

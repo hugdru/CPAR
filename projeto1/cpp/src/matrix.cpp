@@ -77,7 +77,7 @@ Matrix *Matrix::MultiplicationNaiveSequential(Matrix &matrix_a, Matrix &matrix_b
   }
   clock_t end = clock();
   char buffer[100];
-  snprintf(buffer, 100, "Time: %3.3f seconds\n",
+  snprintf(buffer, 100, "%3.3f seconds\n",
            static_cast<double>(end - start) / CLOCKS_PER_SEC);
   cout << buffer;
 
@@ -111,7 +111,7 @@ Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b) 
     }
     double end = omp_get_wtime();
     char buffer[100];
-    snprintf(buffer, 100, "Time: %3.3f seconds\n", end - start);
+    snprintf(buffer, 100, "%3.3f seconds\n", end - start);
     cout << buffer;
 
     return matrix_result;
@@ -137,7 +137,7 @@ Matrix *Matrix::MultiplicationLineSequential(Matrix &matrix_a, Matrix &matrix_b)
   }
   clock_t end = clock();
   char buffer[100];
-  snprintf(buffer, 100, "Time: %3.3f seconds\n",
+  snprintf(buffer, 100, "%3.3f seconds\n",
            static_cast<double>(end - start) / CLOCKS_PER_SEC);
   cout << buffer;
 
@@ -169,7 +169,7 @@ Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b) {
   }
   double end = omp_get_wtime();
   char buffer[100];
-  snprintf(buffer, 100, "Time: %3.3f seconds\n", end - start);
+  snprintf(buffer, 100, "%3.3f seconds\n", end - start);
   cout << buffer;
 
   return matrix_result;
