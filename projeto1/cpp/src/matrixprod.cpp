@@ -3,7 +3,10 @@
 #include <iostream>
 
 #include "matrix.hpp"
+
+#ifndef NPAPI
 #include "papi.hpp"
+#endif
 
 static void PrintMatrix(Matrix &matrix);
 static void FillMatrixA(Matrix &matrix);
@@ -12,10 +15,12 @@ static void FillMatrixB(Matrix &matrix);
 using namespace std;
 
 int main(int argc, char *argv[]) {
+#ifndef NPAPI
   Papi papi = Papi();
 
   papi.Init();
   papi.InstallEvents();
+#endif
 
   int operation = 0;
   size_t a_rows, a_columns;
@@ -92,7 +97,9 @@ int main(int argc, char *argv[]) {
       cin >> b_rows >> b_columns;
     }
 
+#ifndef NPAPI
     papi.Start();
+#endif
 
     Matrix matrix_a(a_rows, a_columns);
     FillMatrixA(matrix_a);
@@ -151,7 +158,9 @@ int main(int argc, char *argv[]) {
       matrix_result = nullptr;
     }
 
+#ifndef NPAPI
     papi.StopAndReset();
+#endif
 
   } while (inLoop);
 }

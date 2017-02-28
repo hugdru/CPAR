@@ -31,6 +31,9 @@ releaseO2: $(OUT)
 releaseO3: CCFLAGS = -O3 -pipe -s -DNDEBUG -Wall -Wdisabled-optimization -Wstack-protector -Winline
 releaseO3: $(OUT)
 
+releaseO3NPAPI: CCFLAGS = -O3 -pipe -s -DNPAPI -DNDEBUG -Wall -Wdisabled-optimization -Wstack-protector -Winline
+releaseO3NPAPI: $(OUT)
+
 ./buildtemp/%.o: src/%
 	mkdir -p ./buildtemp
 	$(CCC) $(INCLUDES) $(CCFLAGS) $(COMPILE_AND_LINK_COMMON_OPTIONS) -c $< -o $@

@@ -4,7 +4,7 @@ cd "${0%/*}"
 
 main() {
   make clean
-  make releaseO3
+  make releaseO3NPAPI
 
   bench 1 600 400 3000 3
   bench 2 600 400 3000 3
