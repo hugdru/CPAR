@@ -10,4 +10,4 @@ cmake-build-*/
 obj/
 *.pyc
 __pycache__/
-PythonConverter/converter.py
+PythonConverter/converted*.csv
