@@ -11,7 +11,7 @@ INCLUDES = -I./src -I/usr/local/include
 CCC = g++ -std=c++14
 
 # library paths
-LIBS = -L/usr/local/lib -lpapi -lpthread
+LIBS = -L/usr/local/lib -lpapi
 
 # options
 COMPILE_AND_LINK_COMMON_OPTIONS = -fopenmp
