@@ -1,6 +1,7 @@
 import sys
 import re
 from os import walk
+from os import sep
 
 
 def cmp(a, b):
@@ -52,8 +53,8 @@ def get_result_value_int(num):
         return "<not supported>"
 
 
-def convert_files(files_map):
-    with open("converted.csv", "w") as out_file:
+def convert_files_perf(files_map, name_out):
+    with open(name_out + ".csv", "w") as out_file:
         for key in sorted(files_map, key=cmp_to_key(_compare_keys)):
             time = []
             bus_cycles = []
@@ -71,7 +72,7 @@ def convert_files(files_map):
             l1_icache_load_misses = []
 
             for file in files_map[key]:
-                with open(sys.argv[1] + "/" + file, "r") as in_file:
+                with open(sys.argv[2] + "/" + file, "r") as in_file:
                     print("adding: " + file)
                     for i, line in enumerate(in_file):
                         if i == 1:
@@ -123,21 +124,85 @@ def convert_files(files_map):
             out_file.write(",,,," + '\n')
 
 
+def convert_files_papi(files_map, name_out):
+    with open(name_out + ".csv", "w") as out_file:
+        for key in sorted(files_map, key=cmp_to_key(_compare_keys)):
+            time = []
+            papi_l1_dcm = []
+            papi_l1_icm = []
+            papi_l1_tcm = []
+            papi_l2_dcm = []
+            papi_l2_icm = []
+            papi_l2_tcm = []
+            papi_l3_dca = []
+            papi_l3_ica = []
+            papi_tot_ins = []
+
+            for file in files_map[key]:
+                with open(sys.argv[2] + "/" + file, "r") as in_file:
+                    print("adding: " + file)
+                    for i, line in enumerate(in_file):
+                        if i == 2:
+                            time.append('{:.3f}'.format(float(line.split()[0])))
+                        elif i >= 4 and len(line.split()) >= 2:
+                            typee = line.split()[0]
+                            value = get_result_value_int(line.split()[1])
+                            if typee == "PAPI_L1_DCM:":
+                                papi_l1_dcm.append(value)
+                            elif typee == "PAPI_L1_ICM:":
+                                papi_l1_icm.append(value)
+                            elif typee == "PAPI_L1_TCM:":
+                                papi_l1_tcm.append(value)
+                            elif typee == "PAPI_L2_DCM:":
+                                papi_l2_dcm.append(value)
+                            elif typee == "PAPI_L2_ICM:":
+                                papi_l2_icm.append(value)
+                            elif typee == "PAPI_L2_TCM:":
+                                papi_l2_tcm.append(value)
+                            elif typee == "PAPI_L3_DCA:":
+                                papi_l3_dca.append(value)
+                            elif typee == "PAPI_L3_ICA:":
+                                papi_l3_ica.append(value)
+                            elif typee == "PAPI_TOT_INS:":
+                                papi_tot_ins.append(value)
+            out_file.write(key + ",Time (s)," + ','.join(time) + '\n')
+            out_file.write(",PAPI_L1_DCM," + ','.join(papi_l1_dcm) + '\n')
+            out_file.write(",PAPI_L1_ICM," + ','.join(papi_l1_icm) + '\n')
+            out_file.write(",PAPI_L1_TCM," + ','.join(papi_l1_tcm) + '\n')
+            out_file.write(",PAPI_L2_DCM," + ','.join(papi_l2_dcm) + '\n')
+            out_file.write(",PAPI_L2_ICM," + ','.join(papi_l2_icm) + '\n')
+            out_file.write(",PAPI_L2_TCM," + ','.join(papi_l2_tcm) + '\n')
+            out_file.write(",PAPI_L3_DCA," + ','.join(papi_l3_dca) + '\n')
+            out_file.write(",PAPI_L3_ICA," + ','.join(papi_l3_ica) + '\n')
+            out_file.write(",PAPI_TOT_INS," + ','.join(papi_tot_ins) + '\n')
+            out_file.write(",,,," + '\n')
+            out_file.write(",,,," + '\n')
+
+
 def main():
-    if len(sys.argv) <= 1:
-        print('Usage: ' + str(sys.argv[0]) + ' <folder path>')
+    if len(sys.argv) <= 2:
+        print('Usage: ' + str(sys.argv[0]) + ' <perf|papi> <folder path>')
         return
 
     map = {}
-    for root, dirs, files in walk(sys.argv[1]):
+    folders = sys.argv[2].split(sep);
+    name_out_put_file = "converted"
+    if len(folders) > 0:
+        name_out_put_file += "_" + folders[len(folders) - 1]  # add last file name to the output file
+    print(name_out_put_file);
+    for root, dirs, files in walk(sys.argv[2]):
         for file in files:
             key = file.split("_")[0]
             if re.search("\d+_\d+.txt", file, flags=0):
                 if key not in map:
                     map[key] = []
                 map[key].append(file)
-    convert_files(map)
-
+    if sys.argv[1] == "perf":
+        convert_files_perf(map, name_out_put_file + "_perf")
+    elif sys.argv[1] == "papi":
+        convert_files_papi(map, name_out_put_file + "_papi")
+    else: 
+        print("error: " + sys.argv[1] + " tool not recognized")
 
 if __name__ == "__main__":
     main()
