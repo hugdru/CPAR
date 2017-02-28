@@ -1,7 +1,6 @@
 #include "matrix.hpp"
 
 #include <omp.h>
-#include <ctime>
 #include <iostream>
 
 using namespace std;
@@ -83,17 +82,20 @@ Matrix *Matrix::MultiplicationNaiveSequential(Matrix &matrix_a,
   return matrix_result;
 }
 
-Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a,
-                                            Matrix &matrix_b) {
+Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b,
+                                            int number_of_threads) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
     throw invalid_argument("matrices are not compatible for multiplication");
+  }
+
+  if (number_of_threads <= 0) {
+    throw invalid_argument("Number of threads must be > 0");
   }
 
   Matrix *matrix_result =
       AllocateMultiplicationMatrix(matrix_a, matrix_b, false);
 
-  cout << "Number of CPU Threads: " << omp_get_num_procs() << endl;
-  omp_set_num_threads(omp_get_num_procs());
+  omp_set_num_threads(number_of_threads);
 
   double start = omp_get_wtime();
 #pragma omp parallel for
@@ -143,15 +145,19 @@ Matrix *Matrix::MultiplicationLineSequential(Matrix &matrix_a,
   return matrix_result;
 }
 
-Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b) {
+Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b,
+                                           int number_of_threads) {
   if (!MultiplicationSizesCheck(matrix_a, matrix_b)) {
     throw invalid_argument("matrices are not compatible for multiplication");
   }
 
+  if (number_of_threads <= 0) {
+    throw invalid_argument("Number of threads must be > 0");
+  }
+
   Matrix *matrix_result = AllocateMultiplicationMatrix(matrix_a, matrix_b);
 
-  cout << "Number of CPU Threads: " << omp_get_num_procs() << endl;
-  omp_set_num_threads(omp_get_num_procs());
+  omp_set_num_threads(number_of_threads);
 
   double start = omp_get_wtime();
 #pragma omp parallel for

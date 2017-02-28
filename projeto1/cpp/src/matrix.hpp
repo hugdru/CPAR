@@ -40,11 +40,12 @@ class Matrix {
 
   static Matrix *MultiplicationNaiveSequential(Matrix &matrix_a,
                                                Matrix &matrix_b);
-  static Matrix *MultiplicationNaiveParallel(Matrix &matrix_a,
-                                             Matrix &matrix_b);
+  static Matrix *MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b,
+                                             int number_of_threads);
   static Matrix *MultiplicationLineSequential(Matrix &matrix_a,
                                               Matrix &matrix_b);
-  static Matrix *MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b);
+  static Matrix *MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b,
+                                            int number_of_threads);
 
  private:
   static bool MultiplicationSizesCheck(Matrix &matrix_a, Matrix &matrix_b);

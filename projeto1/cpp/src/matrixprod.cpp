@@ -31,13 +31,25 @@ int main(int argc, char *argv[]) {
         break;
       }
       if (operation == 1) {
-        cout << "1. Multiplication Sequential -> ";
+        cout << "1. Naive Multiplication Sequential -> ";
       } else if (operation == 2) {
         cout << "2. Line Multiplication Sequential -> ";
       } else if (operation == 3) {
-        cout << "3. Line Multiplication Parallel -> ";
+        cout << "3. Naive Multiplication Parallel 1 thread -> ";
       } else if (operation == 4) {
-        cout << "4. Line Multiplication Parallel -> ";
+        cout << "4. Naive Multiplication Parallel 2 threads -> ";
+      } else if (operation == 5) {
+        cout << "5. Naive Multiplication Parallel 3 threads -> ";
+      } else if (operation == 6) {
+        cout << "6. Naive Multiplication Parallel 4 threads -> ";
+      } else if (operation == 7) {
+        cout << "7. Line Multiplication Parallel 1 thread -> ";
+      } else if (operation == 8) {
+        cout << "8. Line Multiplication Parallel 2 threads -> ";
+      } else if (operation == 9) {
+        cout << "9. Line Multiplication Parallel 3 threads -> ";
+      } else if (operation == 10) {
+        cout << "10. Line Multiplication Parallel 4 threads -> ";
       } else {
         cerr << "Invalid operation." << endl;
         break;
@@ -57,10 +69,16 @@ int main(int argc, char *argv[]) {
       cerr << "usage: " << argv[0] << " <operation> <size>" << endl;
       break;
     } else {
-      cout << endl << "1. Multiplication Sequential" << endl;
-      cout << "2. Multiplication Parallel" << endl;
-      cout << "3. Line Multiplication Sequential" << endl;
-      cout << "4. Line Multiplication Parallel" << endl;
+      cout << endl << "1. Naive Multiplication Sequential" << endl;
+      cout << "2. Line Multiplication Sequential" << endl;
+      cout << "3. Naive Multiplication Parallel 1 thread" << endl;
+      cout << "4. Naive Multiplication Parallel 2 threads" << endl;
+      cout << "5. Naive Multiplication Parallel 3 threads" << endl;
+      cout << "6. Naive Multiplication Parallel 4 threads" << endl;
+      cout << "7. Line Multiplication Parallel 1 thread" << endl;
+      cout << "8. Line Multiplication Parallel 2 threads" << endl;
+      cout << "9. Line Multiplication Parallel 3 threads" << endl;
+      cout << "10. Line Multiplication Parallel 4 threads" << endl;
 
       cout << "Selection?: ";
       cin >> operation;
@@ -89,14 +107,40 @@ int main(int argc, char *argv[]) {
             Matrix::MultiplicationNaiveSequential(matrix_a, matrix_b);
         break;
       case 2:
-        matrix_result = Matrix::MultiplicationNaiveParallel(matrix_a, matrix_b);
-        break;
-      case 3:
         matrix_result =
             Matrix::MultiplicationLineSequential(matrix_a, matrix_b);
         break;
+      case 3:
+        matrix_result =
+            Matrix::MultiplicationNaiveParallel(matrix_a, matrix_b, 1);
+        break;
       case 4:
-        matrix_result = Matrix::MultiplicationLineParallel(matrix_a, matrix_b);
+        matrix_result =
+            Matrix::MultiplicationNaiveParallel(matrix_a, matrix_b, 2);
+        break;
+      case 5:
+        matrix_result =
+            Matrix::MultiplicationNaiveParallel(matrix_a, matrix_b, 3);
+        break;
+      case 6:
+        matrix_result =
+            Matrix::MultiplicationNaiveParallel(matrix_a, matrix_b, 4);
+        break;
+      case 7:
+        matrix_result =
+            Matrix::MultiplicationLineParallel(matrix_a, matrix_b, 1);
+        break;
+      case 8:
+        matrix_result =
+            Matrix::MultiplicationLineParallel(matrix_a, matrix_b, 2);
+        break;
+      case 9:
+        matrix_result =
+            Matrix::MultiplicationLineParallel(matrix_a, matrix_b, 3);
+        break;
+      case 10:
+        matrix_result =
+            Matrix::MultiplicationLineParallel(matrix_a, matrix_b, 4);
         break;
       default:
         cerr << "FAILED: wrong operation";
