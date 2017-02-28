@@ -63,69 +63,69 @@ int Papi::InstallEvents() {
   if (ret != PAPI_OK) {
     return ret;
   }
-  ret = AddEvent(PAPI_L2_DCA);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
-  ret = AddEvent(PAPI_L2_DCR);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
-  ret = AddEvent(PAPI_L2_ICA);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
-  ret = AddEvent(PAPI_L2_ICR);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
+//  ret = AddEvent(PAPI_L2_DCA);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
+//  ret = AddEvent(PAPI_L2_DCR);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
+//  ret = AddEvent(PAPI_L2_ICA);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
+//  ret = AddEvent(PAPI_L2_ICR);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
 
-  ret = AddEvent(PAPI_L3_TCM);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
+//  ret = AddEvent(PAPI_L3_TCM);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
   ret = AddEvent(PAPI_L3_DCA);
   if (ret != PAPI_OK) {
     return ret;
   }
-  ret = AddEvent(PAPI_L3_DCR);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
+//  ret = AddEvent(PAPI_L3_DCR);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
   ret = AddEvent(PAPI_L3_ICA);
   if (ret != PAPI_OK) {
     return ret;
   }
-  ret = AddEvent(PAPI_L3_ICR);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
+//  ret = AddEvent(PAPI_L3_ICR);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
 
-  ret = AddEvent(PAPI_FP_INS);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
-  ret = AddEvent(PAPI_FP_OPS);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
-  ret = AddEvent(PAPI_SP_OPS);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
-  ret = AddEvent(PAPI_DP_OPS);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
+//  ret = AddEvent(PAPI_FP_INS);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
+//  ret = AddEvent(PAPI_FP_OPS);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
+//  ret = AddEvent(PAPI_SP_OPS);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
+//  ret = AddEvent(PAPI_DP_OPS);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
 
   ret = AddEvent(PAPI_TOT_INS);
   if (ret != PAPI_OK) {
     return ret;
   }
-  ret = AddEvent(PAPI_TOT_CYC);
-  if (ret != PAPI_OK) {
-    return ret;
-  }
+//  ret = AddEvent(PAPI_TOT_CYC);
+//  if (ret != PAPI_OK) {
+//    return ret;
+//  }
 
   return ret;
 }
