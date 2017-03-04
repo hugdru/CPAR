@@ -48,7 +48,8 @@ def cmp_to_key(mycmp):
 
 def get_result_value_int(num):
     try:
-        return str(int(num.replace(',', '')))
+        value = str(int(num.replace(',', '')))
+        return value if not value.isspace() else "<not supported>"
     except ValueError:
         return "<not supported>"
 
@@ -72,11 +73,13 @@ def convert_files_perf(files_map, name_out):
             l1_icache_load_misses = []
 
             for file in files_map[key]:
-                with open(sys.argv[2] + "/" + file, "r") as in_file:
+                with open(sys.argv[1] + "/" + file, "r") as in_file:
                     print("adding: " + file)
                     for i, line in enumerate(in_file):
                         if i == 1:
-                            time.append('{:.3f}'.format(float(line[:-1])))
+                            sec = line.split()
+                            tempTime = sec[1] if len(sec) == 3 else sec[0] if len(sec) == 2 else line[:-1]
+                            time.append('{:.3f}'.format(float(tempTime)))
                         elif i >= 7 and len(line.split()) >= 2:
                             typee = line.split()[1]
                             value = get_result_value_int(line.split()[0])
@@ -139,7 +142,7 @@ def convert_files_papi(files_map, name_out):
             papi_tot_ins = []
 
             for file in files_map[key]:
-                with open(sys.argv[2] + "/" + file, "r") as in_file:
+                with open(sys.argv[1] + "/" + file, "r") as in_file:
                     print("adding: " + file)
                     for i, line in enumerate(in_file):
                         if i == 2:
@@ -181,28 +184,25 @@ def convert_files_papi(files_map, name_out):
 
 def main():
     if len(sys.argv) <= 2:
-        print('Usage: ' + str(sys.argv[0]) + ' <perf|papi> <folder path>')
+        print('Usage: ' + str(sys.argv[0]) + ' <folder path> <new file name>')
         return
 
     map = {}
-    folders = sys.argv[2].split(sep);
-    name_out_put_file = "converted"
-    if len(folders) > 0:
-        name_out_put_file += "_" + folders[len(folders) - 1]  # add last file name to the output file
-    print(name_out_put_file);
-    for root, dirs, files in walk(sys.argv[2]):
+    folders = sys.argv[1].split(sep);
+    print(sys.argv[2])
+    for root, dirs, files in walk(sys.argv[1]):
         for file in files:
             key = file.split("_")[0]
             if re.search("\d+_\d+.txt", file, flags=0):
                 if key not in map:
                     map[key] = []
                 map[key].append(file)
-    if sys.argv[1] == "perf":
-        convert_files_perf(map, name_out_put_file + "_perf")
-    elif sys.argv[1] == "papi":
-        convert_files_papi(map, name_out_put_file + "_papi")
+    if "bench" in folders or "benchPerf" in folders:
+        convert_files_perf(map, sys.argv[2])
+    elif "benchPapi" in folders:
+        convert_files_papi(map, sys.argv[2])
     else: 
-        print("error: " + sys.argv[1] + " tool not recognized")
+        print("error: folder 'bench', 'benchPerf' or 'benchPapi' not found in the path")
 
 if __name__ == "__main__":
     main()
