@@ -6,6 +6,8 @@ main() {
   make clean
   make releaseO3
 
+  bench 1 600 400 3000 3
+  bench 2 600 400 3000 3
   bench 3 600 400 3000 3
   bench 4 600 400 3000 3
   bench 5 600 400 3000 3

@@ -9,6 +9,10 @@
 class Matrix {
  private:
   double *values;
+//  size_t rows_length;
+//  size_t columns_length;
+
+ public:
   size_t rows_length;
   size_t columns_length;
 

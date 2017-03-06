@@ -23,8 +23,7 @@ int main(int argc, char *argv[]) {
 #endif
 
   int operation = 0;
-  size_t a_rows, a_columns;
-  size_t b_rows, b_columns;
+  size_t a_rows = 10, a_columns = 10, b_rows = 10, b_columns = 10;
   bool inLoop = true;
   do {
     if (argc == 3) {
@@ -166,18 +165,28 @@ int main(int argc, char *argv[]) {
 }
 
 static void FillMatrixA(Matrix &matrix) {
-  Matrix::Length length{matrix};
-  for (size_t row = 0; row < length.rows_length; row++) {
-    for (size_t column = 0; column < length.columns_length; column++) {
+//  Matrix::Length length{matrix};
+//  for (size_t row = 0; row < length.rows_length; row++) {
+//    for (size_t column = 0; column < length.columns_length; column++) {
+//      matrix(row, column) = 1.0;
+//    }
+//  }
+  for (size_t row = 0; row < matrix.rows_length; row++) {
+    for (size_t column = 0; column < matrix.columns_length; column++) {
       matrix(row, column) = 1.0;
     }
   }
 }
 
 static void FillMatrixB(Matrix &matrix) {
-  Matrix::Length length{matrix};
-  for (size_t row = 0; row < length.rows_length; row++) {
-    for (size_t column = 0; column < length.columns_length; column++) {
+//  Matrix::Length length{matrix};
+//  for (size_t row = 0; row < length.rows_length; row++) {
+//    for (size_t column = 0; column < length.columns_length; column++) {
+//      matrix(row, column) = static_cast<double>(row + 1);
+//    }
+//  }
+  for (size_t row = 0; row < matrix.rows_length; row++) {
+    for (size_t column = 0; column < matrix.columns_length; column++) {
       matrix(row, column) = static_cast<double>(row + 1);
     }
   }
@@ -185,8 +194,13 @@ static void FillMatrixB(Matrix &matrix) {
 
 static void PrintMatrix(Matrix &matrix) {
   cout << "Result matrix: " << endl;
+//  for (size_t column = 0;
+//       column < min(static_cast<size_t>(10), matrix.GetColumnsLength());
+//       column++) {
+//    cout << matrix(0, column) << " ";
+//  }
   for (size_t column = 0;
-       column < min(static_cast<size_t>(10), matrix.GetColumnsLength());
+       column < min(static_cast<size_t>(10), matrix.columns_length);
        column++) {
     cout << matrix(0, column) << " ";
   }

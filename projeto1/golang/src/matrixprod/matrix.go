@@ -58,7 +58,7 @@ func MultiplicationNaiveSequential(matrixA, matrixB *Matrix) *Matrix {
 		}
 	}
 	elapsed := time.Since(start)
-	fmt.Printf("%3.3f\n", elapsed.Seconds())
+	fmt.Printf("%3.3f Time in seconds\n", elapsed.Seconds())
 
 	return matrixResult
 }
@@ -83,7 +83,7 @@ func MultiplicationLineSequential(matrixA, matrixB *Matrix) *Matrix {
 		}
 	}
 	elapsed := time.Since(start)
-	fmt.Printf("Time: %3.3f\n", elapsed.Seconds())
+	fmt.Printf("%3.3f Time in seconds\n", elapsed.Seconds())
 
 	return matrixResult
 }

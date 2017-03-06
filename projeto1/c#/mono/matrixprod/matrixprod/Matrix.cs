@@ -32,9 +32,9 @@ namespace matrixprod
             values = new double[rowsLength * columnsLength];
         }
 
-        public static Matrix MultiplicationNaiveSequential(ref Matrix matrixA, ref Matrix matrixB)
+        public static Matrix MultiplicationNaiveSequential(Matrix matrixA, Matrix matrixB)
         {
-            if (!MultiplicationSizesCheck(ref matrixA, ref matrixB))
+            if (!MultiplicationSizesCheck(matrixA, matrixB))
             {
                 throw new System.ArgumentException("matrices are not compatible for multiplication");
             }
@@ -48,7 +48,7 @@ namespace matrixprod
                 {
                     double tempSum = 0;
                     for (int k = 0; k < matrixA.columnsLength; k++)
-                    { 
+                    {
                         tempSum += matrixA.values[rowA * matrixA.columnsLength + k] * matrixB.values[k * matrixB.columnsLength + columnB];
                         //tempSum += matrixA[rowA, k] * matrixB[k, columnB];
                     }
@@ -57,14 +57,14 @@ namespace matrixprod
                 }
             }
             watch.Stop();
-            Console.WriteLine("{0}", watch.Elapsed.TotalSeconds);
+            Console.WriteLine("{0} Time in seconds", watch.Elapsed.TotalSeconds);
 
             return matrixResult;
         }
 
-        public static Matrix MultiplicationLineSequential(ref Matrix matrixA, ref Matrix matrixB)
+        public static Matrix MultiplicationLineSequential(Matrix matrixA, Matrix matrixB)
         {
-            if (!MultiplicationSizesCheck(ref matrixA, ref matrixB))
+            if (!MultiplicationSizesCheck(matrixA, matrixB))
             {
                 throw new System.ArgumentException("matrices are not compatible for multiplication");
             }
@@ -78,19 +78,19 @@ namespace matrixprod
                 {
                     for (int columnB = 0; columnB < matrixB.columnsLength; columnB++)
                     {
-                        matrixResult.values[rowA * matrixResult.columnsLength + columnB] += 
+                        matrixResult.values[rowA * matrixResult.columnsLength + columnB] +=
                             matrixA.values[rowA * matrixA.columnsLength + k] * matrixB.values[k * matrixB.columnsLength + columnB];
                         //matrixResult[rowA, columnB] += matrixA[rowA, k] * matrixB[k, columnB];
                     }
                 }
             }
             watch.Stop();
-            Console.WriteLine("{0}", watch.Elapsed.TotalSeconds);
+            Console.WriteLine("{0} Time in seconds", watch.Elapsed.TotalSeconds);
 
             return matrixResult;
         }
 
-        private static bool MultiplicationSizesCheck(ref Matrix matrixA, ref Matrix matrixB)
+        private static bool MultiplicationSizesCheck(Matrix matrixA, Matrix matrixB)
         {
             return matrixA.columnsLength == matrixB.rowsLength;
         }

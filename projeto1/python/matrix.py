@@ -36,7 +36,7 @@ def multiplication_naive_sequential(matrix_a, matrix_b):
                     matrix_b.values[k * matrix_b.columnsLength + column_b]
             matrix_result.values[row_a * matrix_result.columnsLength + column_b] = temp_sum
     end = time.process_time()
-    print("{:f}".format(end-start))
+    print("{:f} Time in seconds".format(end-start))
 
     return matrix_result
 
@@ -54,7 +54,7 @@ def multiplication_line_sequential(matrix_a, matrix_b):
                     matrix_a.values[row_a * matrix_a.columnsLength + k] *\
                     matrix_b.values[k * matrix_b.columnsLength + column_b]
     end = time.process_time()
-    print("{:f}".format(end-start))
+    print("{:f} Time in seconds".format(end-start))
 
     return matrix_result
 

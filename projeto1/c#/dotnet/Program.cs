@@ -4,30 +4,18 @@ namespace matrixprod
 {
     class MainClass
     {
-        private struct InputMatrixSize
-        {
-            public int rowsLength;
-            public int columnsLength;
-
-            public InputMatrixSize(int rowsLength_, int columnsLength_)
-            {
-                rowsLength = rowsLength_;
-                columnsLength = columnsLength_;
-            }
-        }
-
         public static void Main(string[] args)
-        {            
+        {
             int operation = 0;
-            int size = 10;
-            var matrixASizes = new InputMatrixSize(size, size);
-            var matrixBSizes = new InputMatrixSize(size, size);
+            int a_rows = 10, a_columns = 10, b_rows = 10, b_columns = 10;
             bool inLoop = true;
             while (inLoop)
             {
                 if (args.Length == 2)
                 {
                     operation = int.Parse(args[0]);
+                    int size = int.Parse(args[1]);
+
                     if (operation == 1)
                     {
                         Console.Write("1. Multiplication Sequential -> ");
@@ -41,14 +29,17 @@ namespace matrixprod
                         Console.WriteLine("Invalid operation.");
                         break;
                     }
-                    size = int.Parse(args[1]);
-                    matrixASizes.rowsLength = matrixASizes.columnsLength = matrixBSizes.rowsLength = matrixBSizes.columnsLength = size;
-                    if (matrixASizes.rowsLength <= 1)
+
+                    if (size <= 1)
                     {
-                        Console.WriteLine("Invalid dize.");
+                        Console.WriteLine("Invalid size.");
                         break;
                     }
-                    Console.WriteLine("size: " + matrixASizes.rowsLength);
+                    Console.WriteLine("size: " + size);
+                    a_rows = size;
+                    a_columns = size;
+                    b_rows = size;
+                    b_columns = size;
                     inLoop = false;
                 }
                 else if (args.Length != 0)
@@ -67,28 +58,39 @@ namespace matrixprod
                     {
                         break;
                     }
-
                     Console.Write("Dimensions: matrixA rows columns ? ");
-                    matrixASizes = ReadMatrixSizes();
+                    string[] sizes = Console.ReadLine().Split();
+                    if (sizes.Length != 2)
+                    {
+                        throw new System.ArgumentException("Failed: expecting rows and columns");
+                    }
+                    a_rows = int.Parse(sizes[0]);
+                    a_columns = int.Parse(sizes[1]);
 
                     Console.Write("Dimensions: matrixB rows columns ? ");
-                    matrixBSizes = ReadMatrixSizes();
-
+                    sizes = Console.ReadLine().Split();
+                    if (sizes.Length != 2)
+                    {
+                        throw new System.ArgumentException("Failed: expecting rows and columns");
+                    }
+                    b_rows = int.Parse(sizes[0]);
+                    b_columns = int.Parse(sizes[1]);
                 }
-                Matrix matrixA = new Matrix(matrixASizes.rowsLength, matrixASizes.columnsLength);
-                FillMatrixA(ref matrixA);
 
-                Matrix matrixB = new Matrix(matrixBSizes.rowsLength, matrixBSizes.columnsLength);
-                FillMatrixB(ref matrixB);
+                Matrix matrixA = new Matrix(a_rows, a_columns);
+                FillMatrixA(matrixA);
+
+                Matrix matrixB = new Matrix(b_rows, b_columns);
+                FillMatrixB(matrixB);
 
                 Matrix matrixResult = null;
                 switch (operation)
                 {
                     case 1:
-                        matrixResult = Matrix.MultiplicationNaiveSequential(ref matrixA, ref matrixB);
+                        matrixResult = Matrix.MultiplicationNaiveSequential(matrixA, matrixB);
                         break;
                     case 2:
-                        matrixResult = Matrix.MultiplicationLineSequential(ref matrixA, ref matrixB);
+                        matrixResult = Matrix.MultiplicationLineSequential(matrixA, matrixB);
                         break;
                     default:
                         Console.Error.Write("FAILED: wrong operation");
@@ -96,26 +98,13 @@ namespace matrixprod
                 }
                 if (matrixResult != null)
                 {
-                    PrintMatrix(ref matrixResult);
+                    PrintMatrix(matrixResult);
                     matrixResult = null;
                 }
             }
         }
 
-        private static InputMatrixSize ReadMatrixSizes()
-        {
-            string[] sizes = Console.ReadLine().Split();
-            if (sizes.Length != 2)
-            {
-                throw new System.ArgumentException("Failed: expecting rows and columns");
-            }
-            var rows = int.Parse(sizes[0]);
-            var columns = int.Parse(sizes[1]);
-
-            return new InputMatrixSize(rows, columns);
-        }
-
-        private static void FillMatrixA(ref Matrix matrix)
+        private static void FillMatrixA(Matrix matrix)
         {
             for (int row = 0; row < matrix.rowsLength; row++)
             {
@@ -127,7 +116,7 @@ namespace matrixprod
             }
         }
 
-        private static void FillMatrixB(ref Matrix matrix)
+        private static void FillMatrixB(Matrix matrix)
         {
             for (int row = 0; row < matrix.rowsLength; row++)
             {
@@ -139,13 +128,13 @@ namespace matrixprod
             }
         }
 
-        private static void PrintMatrix(ref Matrix matrix)
+        private static void PrintMatrix(Matrix matrix)
         {
             Console.WriteLine("Result matrix: ");
             for (int column = 0; column < Math.Min(10, matrix.columnsLength); column++)
             {
-                Console.Write("{0}", matrix.values[column].ToString());
-                //Console.Write("{0}", matrix[0, column].ToString());
+                Console.Write("{0} ", matrix.values[column].ToString());
+                //Console.Write("{0} ", matrix[0, column].ToString());
             }
             Console.WriteLine();
         }

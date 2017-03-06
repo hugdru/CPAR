@@ -75,7 +75,7 @@ Matrix *Matrix::MultiplicationNaiveSequential(Matrix &matrix_a,
   }
   clock_t end = clock();
   char buffer[100];
-  snprintf(buffer, 100, "%3.3f seconds\n",
+  snprintf(buffer, 100, "%3.3f Time in seconds\n",
            static_cast<double>(end - start) / CLOCKS_PER_SEC);
   cout << buffer;
 
@@ -112,7 +112,7 @@ Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b,
   }
   double end = omp_get_wtime();
   char buffer[100];
-  snprintf(buffer, 100, "%3.3f seconds\n", end - start);
+  snprintf(buffer, 100, "%3.3f Time in seconds\n", end - start);
   cout << buffer;
 
   return matrix_result;
@@ -138,7 +138,7 @@ Matrix *Matrix::MultiplicationLineSequential(Matrix &matrix_a,
   }
   clock_t end = clock();
   char buffer[100];
-  snprintf(buffer, 100, "%3.3f seconds\n",
+  snprintf(buffer, 100, "%3.3f Time in seconds\n",
            static_cast<double>(end - start) / CLOCKS_PER_SEC);
   cout << buffer;
 
@@ -173,7 +173,7 @@ Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b,
   }
   double end = omp_get_wtime();
   char buffer[100];
-  snprintf(buffer, 100, "%3.3f seconds\n", end - start);
+  snprintf(buffer, 100, "%3.3f Time in seconds\n", end - start);
   cout << buffer;
 
   return matrix_result;
@@ -189,9 +189,15 @@ Matrix *Matrix::AllocateMultiplicationMatrix(Matrix &matrix_a, Matrix &matrix_b,
 }
 
 ostream &operator<<(ostream &os, Matrix const &matrix) {
-  Matrix::Length length(matrix);
-  for (size_t row = 0; row < length.rows_length; row++) {
-    for (size_t column = 0; column < length.columns_length; column++) {
+//  Matrix::Length length(matrix);
+//  for (size_t row = 0; row < length.rows_length; row++) {
+//    for (size_t column = 0; column < length.columns_length; column++) {
+//      os << matrix(row, column) << " ";
+//    }
+//    os << endl;
+//  }
+  for (size_t row = 0; row < matrix.rows_length; row++) {
+    for (size_t column = 0; column < matrix.columns_length; column++) {
       os << matrix(row, column) << " ";
     }
     os << endl;

@@ -1,10 +1,15 @@
 ﻿<Properties StartupConfiguration="{727F589C-08C1-4FFF-B99A-50D389598CA8}|Default">
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="matrixprod/Program.cs">
+    <Files>
+      <File FileName="matrixprod/Program.cs" Line="90" Column="36" />
+      <File FileName="matrixprod/Matrix.cs" Line="19" Column="34" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release|x86" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.matrixprod PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
 </Properties>

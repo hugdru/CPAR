@@ -60,7 +60,7 @@ public class Matrix {
       }
     }
     long end = System.currentTimeMillis();
-    System.out.printf("Time: %3.3f seconds\n", (end - start) / 1000.0f);
+    System.out.printf("%3.3f Time in seconds\n", (end - start) / 1000.0f);
     return matrix_result;
   }
 
@@ -78,7 +78,7 @@ public class Matrix {
       }
     }
     long end = System.currentTimeMillis();
-    System.out.printf("Time: %3.3f seconds\n", (end - start) / 1000.0f);
+    System.out.printf("%3.3f Time in seconds\n", (end - start) / 1000.0f);
     return matrix_result;
   }
 
