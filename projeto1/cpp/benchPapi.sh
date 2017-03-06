@@ -6,16 +6,18 @@ main() {
   make clean
   make releaseO3
 
-  bench 1 600 400 3000 3
-  bench 2 600 400 3000 3
-  bench 3 600 400 3000 3
-  bench 4 600 400 3000 3
-  bench 5 600 400 3000 3
-  bench 6 600 400 3000 3
-  bench 7 600 400 3000 3
-  bench 8 600 400 3000 3
-  bench 9 600 400 3000 3
-  bench 10 600 400 3000 3
+  local repetitions=6
+
+  bench 1 600 400 3000 "$repetitions"
+  bench 2 600 400 3000 "$repetitions"
+  bench 3 600 400 3000 "$repetitions"
+  bench 4 600 400 3000 "$repetitions"
+  bench 5 600 400 3000 "$repetitions"
+  bench 6 600 400 3000 "$repetitions"
+  bench 7 600 400 3000 "$repetitions"
+  bench 8 600 400 3000 "$repetitions"
+  bench 9 600 400 3000 "$repetitions"
+  bench 10 600 400 3000 "$repetitions"
 }
 
 bench() {

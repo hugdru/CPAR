@@ -9,9 +9,12 @@ main() {
   rm -rf "$bin"
   mkdir -p "$bin"
   javac -sourcepath "$src" $src/**/*.java -d "$bin"
-  bench 1 600 400 3000 3
-  bench 2 600 400 3000 3
-  bench 2 4000 2000 10000 3
+
+  local repetitions=6
+
+  bench 1 600 400 3000 "$repetitions"
+  bench 2 600 400 3000 "$repetitions"
+  bench 2 4000 2000 10000 "$repetitions"
 }
 
 bench() {
