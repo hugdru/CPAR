@@ -76,14 +76,12 @@ def convert_files_perf(files_map, name_out):
                 with open(sys.argv[1] + "/" + file, "r") as in_file:
                     print("adding: " + file)
                     for i, line in enumerate(in_file):
-                        if i == 1:
-                            sec = line.split()
-                            tempTime = sec[1] if len(sec) == 3 else sec[0] if len(sec) == 2 else line[:-1]
-                            time.append('{:.3f}'.format(float(tempTime)))
-                        elif i >= 7 and len(line.split()) >= 2:
+                        if len(line.split()) >= 2:
                             typee = line.split()[1]
                             value = get_result_value_int(line.split()[0])
-                            if typee == "bus-cycles":
+                            if typee == "Time":
+                                time.append('{:.3f}'.format(float(value)))
+                            elif typee == "bus-cycles":
                                 bus_cycles.append(value)
                             elif typee == "cache-misses":
                                 cache_misses.append(value)
