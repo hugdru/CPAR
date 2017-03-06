@@ -78,35 +78,36 @@ def convert_files_perf(files_map, name_out):
                     for i, line in enumerate(in_file):
                         if len(line.split()) >= 2:
                             typee = line.split()[1]
-                            value = get_result_value_int(line.split()[0])
                             if typee == "Time":
-                                time.append('{:.3f}'.format(float(value)))
-                            elif typee == "bus-cycles":
-                                bus_cycles.append(value)
-                            elif typee == "cache-misses":
-                                cache_misses.append(value)
-                            elif typee == "cache-references":
-                                cache_references.append(value)
-                            elif typee == "cpu-cycles":
-                                cpu_cycles.append(value)
-                            elif typee == "instructions":
-                                instructions.append(value)
-                            elif typee == "ref-cycles":
-                                ref_cycles.append(value)
-                            elif typee == "stalled-cycles-frontend":
-                                stalled_cycles_frontend.append(value)
-                            elif typee == "L1-dcache-load-misses":
-                                l1_dcache_load_misses.append(value)
-                            elif typee == "L1-dcache-loads":
-                                l1_dcache_loads.append(value)
-                            elif typee == "L1-dcache-prefetch-misses":
-                                l1_dcache_prefetch_misses.append(value)
-                            elif typee == "L1-dcache-store-misses":
-                                l1_dcache_store_misses.append(value)
-                            elif typee == "L1-dcache-stores":
-                                l1_dcache_stores.append(value)
-                            elif typee == "L1-icache-load-misses":
-                                l1_icache_load_misses.append(value)
+                                time.append('{:.3f}'.format(float(line.split()[0])))
+                            else:
+                                value = get_result_value_int(line.split()[0])
+                                if typee == "bus-cycles":
+                                    bus_cycles.append(value)
+                                elif typee == "cache-misses":
+                                    cache_misses.append(value)
+                                elif typee == "cache-references":
+                                    cache_references.append(value)
+                                elif typee == "cpu-cycles":
+                                    cpu_cycles.append(value)
+                                elif typee == "instructions":
+                                    instructions.append(value)
+                                elif typee == "ref-cycles":
+                                    ref_cycles.append(value)
+                                elif typee == "stalled-cycles-frontend":
+                                    stalled_cycles_frontend.append(value)
+                                elif typee == "L1-dcache-load-misses":
+                                    l1_dcache_load_misses.append(value)
+                                elif typee == "L1-dcache-loads":
+                                    l1_dcache_loads.append(value)
+                                elif typee == "L1-dcache-prefetch-misses":
+                                    l1_dcache_prefetch_misses.append(value)
+                                elif typee == "L1-dcache-store-misses":
+                                    l1_dcache_store_misses.append(value)
+                                elif typee == "L1-dcache-stores":
+                                    l1_dcache_stores.append(value)
+                                elif typee == "L1-icache-load-misses":
+                                    l1_icache_load_misses.append(value)
             out_file.write(key + ",Time (s)," + ','.join(time) + '\n')
             out_file.write(",bus-cycles," + ','.join(bus_cycles) + '\n')
             out_file.write(",cache-misses," + ','.join(cache_misses) + '\n')
