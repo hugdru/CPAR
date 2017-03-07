@@ -1,0 +1,24 @@
+1. Multiplication Sequential -> size: 2200
+27.483 Time in seconds
+Result matrix: 
+2421100.0 2421100.0 2421100.0 2421100.0 2421100.0 2421100.0 2421100.0 2421100.0 2421100.0 2421100.0 
+
+ Performance counter stats for 'java -Xms3G -Xmx3G -classpath ./bin matrixprod.Matrixprod 1 2200':
+
+     2,740,334,463      bus-cycles                                                    (15.43%)
+     1,680,172,642      cache-misses              #   72.206 % of all cache refs      (23.12%)
+     2,326,915,147      cache-references                                              (30.83%)
+    74,036,205,063      cpu-cycles                                                    (38.53%)
+   125,762,099,595      instructions              #    1.70  insn per cycle         
+                                                  #    0.31  stalled cycles per insn  (46.22%)
+    49,542,056,461      ref-cycles                                                    (53.95%)
+    39,444,381,536      stalled-cycles-frontend   #   53.28% frontend cycles idle     (54.04%)
+    13,333,236,942      L1-dcache-load-misses     #   61.93% of all L1-dcache hits    (54.03%)
+    21,530,168,682      L1-dcache-loads                                               (53.56%)
+     2,022,923,489      L1-dcache-prefetch-misses                                     (53.45%)
+        23,316,754      L1-dcache-store-misses                                        (15.37%)
+       109,270,555      L1-dcache-stores                                              (15.42%)
+         1,454,605      L1-icache-load-misses                                         (15.42%)
+
+      27.623737132 seconds time elapsed
+

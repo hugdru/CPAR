@@ -2,7 +2,7 @@
 cd "${0%/*}"
 ../projeto1/c#/dotnet/bench.sh
 ../projeto1/java/bench.sh
-../projeto1/cpp/benchPerf.sh 
+../projeto1/cpp/benchPerf.sh
 ../projeto1/cpp/benchPapi.sh
 rm -rf converted
 mkdir converted

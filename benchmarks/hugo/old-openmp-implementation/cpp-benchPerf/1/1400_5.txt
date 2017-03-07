@@ -1,0 +1,24 @@
+1. Naive Multiplication Sequential -> size: 1400
+6.146 Time in seconds
+Result matrix: 
+980700 980700 980700 980700 980700 980700 980700 980700 980700 980700 
+
+ Performance counter stats for './bin/matrixprod 1 1400':
+
+       609,183,202      bus-cycles                                                    (15.49%)
+       345,443,447      cache-misses              #   98.972 % of all cache refs      (23.30%)
+       349,030,586      cache-references                                              (31.08%)
+    16,491,794,107      cpu-cycles                                                    (38.84%)
+    19,183,613,063      instructions              #    1.16  insn per cycle         
+                                                  #    0.58  stalled cycles per insn  (46.57%)
+    11,058,190,174      ref-cycles                                                    (54.27%)
+    11,042,819,465      stalled-cycles-frontend   #   66.96% frontend cycles idle     (54.28%)
+     3,099,850,055      L1-dcache-load-misses     #   56.25% of all L1-dcache hits    (54.16%)
+     5,510,366,988      L1-dcache-loads                                               (52.38%)
+       295,756,582      L1-dcache-prefetch-misses                                     (15.24%)
+         2,115,644      L1-dcache-store-misses                                        (15.44%)
+         3,874,094      L1-dcache-stores                                              (15.42%)
+           359,035      L1-icache-load-misses                                         (15.39%)
+
+       6.169214063 seconds time elapsed
+
