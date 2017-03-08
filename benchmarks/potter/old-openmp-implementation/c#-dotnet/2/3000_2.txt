@@ -1,0 +1,23 @@
+2. Line Multiplication Sequential -> size: 3000
+48.0021609 Time in seconds
+Result matrix: 
+4501500 4501500 4501500 4501500 4501500 4501500 4501500 4501500 4501500 4501500 
+
+ Performance counter stats for 'dotnet run -c Release 2 3000':
+
+        4905380541      bus-cycles                                                    (20,10%)
+          83354011      cache-misses              #   37,879 % of all cache refs      (30,15%)
+         220054754      cache-references                                              (40,14%)
+      166695348065      cpu-cycles                                                    (40,13%)
+      680261716569      instructions              #    4,08  insns per cycle          (50,11%)
+      118129110764      ref-cycles                                                    (60,09%)
+   <not supported>      stalled-cycles-frontend  
+        6812413580      L1-dcache-load-misses     #    3,13% of all L1-dcache hits    (60,03%)
+      217784370360      L1-dcache-loads                                               (51,92%)
+   <not supported>      L1-dcache-prefetch-misses
+   <not supported>      L1-dcache-store-misses   
+       27961972449      L1-dcache-stores                                              (46,02%)
+          50791321      L1-icache-load-misses                                         (20,06%)
+
+      49,527723829 seconds time elapsed
+

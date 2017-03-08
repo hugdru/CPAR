@@ -1,0 +1,23 @@
+2. Line Multiplication Sequential -> size: 2200
+18.9349331 Time in seconds
+Result matrix: 
+2421100 2421100 2421100 2421100 2421100 2421100 2421100 2421100 2421100 2421100 
+
+ Performance counter stats for 'dotnet run -c Release 2 2200':
+
+        2007525562      bus-cycles                                                    (20,32%)
+          35564962      cache-misses              #   29,170 % of all cache refs      (30,40%)
+         121921607      cache-references                                              (40,41%)
+       68389522054      cpu-cycles                                                    (40,38%)
+      271416700034      instructions              #    3,97  insns per cycle          (50,33%)
+       48639728662      ref-cycles                                                    (60,25%)
+   <not supported>      stalled-cycles-frontend  
+        2174041483      L1-dcache-load-misses     #    2,48% of all L1-dcache hits    (60,08%)
+       87686981261      L1-dcache-loads                                               (59,38%)
+   <not supported>      L1-dcache-prefetch-misses
+   <not supported>      L1-dcache-store-misses   
+       11682018419      L1-dcache-stores                                              (19,94%)
+          47652358      L1-icache-load-misses                                         (20,18%)
+
+      20,476825648 seconds time elapsed
+
