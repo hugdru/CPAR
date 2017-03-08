@@ -95,15 +95,11 @@ Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b,
   Matrix *matrix_result =
       AllocateMultiplicationMatrix(matrix_a, matrix_b, false);
 
-  omp_set_num_threads(number_of_threads);
-
   double start = omp_get_wtime();
-#pragma omp parallel for
+#pragma omp parallel for num_threads(number_of_threads)
   for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
-#pragma omp parallel for
     for (size_t column_b = 0; column_b < matrix_b.columns_length; column_b++) {
       double temp_sum = 0.0;
-#pragma omp parallel for reduction(+ : temp_sum)
       for (size_t k = 0; k < matrix_a.columns_length; k++) {
         temp_sum += matrix_a(row_a, k) * matrix_b(k, column_b);
       }
