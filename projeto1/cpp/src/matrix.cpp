@@ -96,7 +96,7 @@ Matrix *Matrix::MultiplicationNaiveParallel(Matrix &matrix_a, Matrix &matrix_b,
       AllocateMultiplicationMatrix(matrix_a, matrix_b, false);
 
   double start = omp_get_wtime();
-#pragma omp parallel for num_threads(number_of_threads)
+#pragma omp parallel for num_threads(number_of_threads) schedule(static)
   for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
     for (size_t column_b = 0; column_b < matrix_b.columns_length; column_b++) {
       double temp_sum = 0.0;
@@ -153,17 +153,14 @@ Matrix *Matrix::MultiplicationLineParallel(Matrix &matrix_a, Matrix &matrix_b,
 
   Matrix *matrix_result = AllocateMultiplicationMatrix(matrix_a, matrix_b);
 
-  omp_set_num_threads(number_of_threads);
-
   double start = omp_get_wtime();
-#pragma omp parallel for
+#pragma omp parallel for num_threads(number_of_threads) schedule(static)
   for (size_t row_a = 0; row_a < matrix_a.rows_length; row_a++) {
-#pragma omp parallel for
     for (size_t k = 0; k < matrix_a.columns_length; k++) {
+      double row_a_column_k = matrix_a(row_a, k);
       for (size_t column_b = 0; column_b < matrix_b.columns_length;
            column_b++) {
-        (*matrix_result)(row_a, column_b) +=
-            matrix_a(row_a, k) * matrix_b(k, column_b);
+        (*matrix_result)(row_a, column_b) += row_a_column_k * matrix_b(k, column_b);
       }
     }
   }
