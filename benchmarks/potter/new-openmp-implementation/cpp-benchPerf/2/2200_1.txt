@@ -1,0 +1,23 @@
+2. Line Multiplication Sequential -> size: 2200
+6.709 Time in seconds
+Result matrix: 
+2.4211e+06 2.4211e+06 2.4211e+06 2.4211e+06 2.4211e+06 2.4211e+06 2.4211e+06 2.4211e+06 2.4211e+06 2.4211e+06 
+
+ Performance counter stats for './bin/matrixprod 2 2200':
+
+         668814320      bus-cycles                                                    (20,03%)
+         456227167      cache-misses              #   45,106 % of all cache refs      (30,06%)
+        1011453172      cache-references                                              (40,09%)
+       22755523741      cpu-cycles                                                    (40,12%)
+       42760804776      instructions              #    1,88  insns per cycle          (50,13%)
+       16093049051      ref-cycles                                                    (60,12%)
+   <not supported>      stalled-cycles-frontend  
+        2081260068      L1-dcache-load-misses     #   19,43% of all L1-dcache hits    (60,09%)
+       10711360533      L1-dcache-loads                                               (59,80%)
+   <not supported>      L1-dcache-prefetch-misses
+   <not supported>      L1-dcache-store-misses   
+        5349331860      L1-dcache-stores                                              (19,95%)
+            627639      L1-icache-load-misses                                         (20,01%)
+
+       6,741923173 seconds time elapsed
+
