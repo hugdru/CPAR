@@ -27,18 +27,19 @@ int main(const int argc, char const *const *const argv) {
       k += 1;
     } while (k <= limit && numbers_vector[k - 2] == false);
   }
-
   clock_t end = clock();
   ostringstream sstream;
   sstream << "Time: " << static_cast<double>(end - start) / CLOCKS_PER_SEC
           << endl;
   cout << sstream.str();
 
+#ifndef NDEBUG
   for (size_t number = 2; number <= last_number; ++number) {
     if (numbers_vector[number - 2]) {
       cout << number << endl;
     };
   }
+#endif
 
   return EXIT_SUCCESS;
 }
