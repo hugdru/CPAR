@@ -17,15 +17,15 @@ int main(const int argc, char const *const *const argv) {
   size_t last_number = parseCmd(argc, argv);
 
   clock_t start = clock();
-  vector<bool> numbers_vector(last_number - 1, true);
+  vector<bool> sieve_vector(last_number - 1, true);
   size_t limit = static_cast<size_t>(sqrt(static_cast<double>(last_number)));
   for (size_t k = 2; k <= limit;) {
     for (size_t multiple = k * k; multiple <= last_number; multiple += k) {
-      numbers_vector[multiple - 2] = false;
+      sieve_vector[multiple - 2] = false;
     }
     do {
       k += 1;
-    } while (k <= limit && numbers_vector[k - 2] == false);
+    } while (k <= limit && !sieve_vector[k - 2]);
   }
   clock_t end = clock();
   ostringstream sstream;
@@ -35,7 +35,7 @@ int main(const int argc, char const *const *const argv) {
 
 #ifndef NDEBUG
   for (size_t number = 2; number <= last_number; ++number) {
-    if (numbers_vector[number - 2]) {
+    if (sieve_vector[number - 2]) {
       cout << number << endl;
     };
   }
