@@ -36,6 +36,8 @@ int main(int argc, char** argv) {
   parsed_t parsed;
   parseCmd(argc, argv, parsed);
 
+  double start, end;
+
   int rank, size;
 
   // mpi init needs to receve the argc and argv
@@ -56,6 +58,8 @@ int main(int argc, char** argv) {
   vector<bool> sieved_vector(blockSize, false);
 
   MPI_Barrier(MPI_COMM_WORLD);
+  if(rank == ROOT_MACHINE)
+    start = MPI_Wtime();
 
   size_t k = 2;
   size_t startBlock;
@@ -91,8 +95,6 @@ int main(int argc, char** argv) {
   }
   // clock_t end = clock();
 
-
-
   //ostringstream sstream;
   //sstream << "Time: " << static_cast<double>(end - start) / CLOCKS_PER_SEC
   //        << endl;
@@ -106,7 +108,7 @@ int main(int argc, char** argv) {
   for (size_t number = 0; number < blockSize; number++) {
     if (!sieved_vector[number]) {
       #ifndef NDEBUG
-        cout << (blockLow + number) << ", ";
+        //cout << (blockLow + number) << ", ";
       #endif
       blockPrimes++;
     }
@@ -115,8 +117,11 @@ int main(int argc, char** argv) {
   size_t AllBlocksPrimes = 0;
   //http://mpitutorial.com/tutorials/mpi-reduce-and-allreduce/
   MPI_Reduce(&blockPrimes, &AllBlocksPrimes, 1, MPI_UNSIGNED, MPI_SUM, ROOT_MACHINE, MPI_COMM_WORLD);
-  if(rank == ROOT_MACHINE)
-    cout << "Primes found: "<< AllBlocksPrimes << endl;
+  if(rank == ROOT_MACHINE) {
+    end = MPI_Wtime();
+    cout << "Primes found: " << AllBlocksPrimes << endl;
+    cout << "Time taken: " << (end - start) << endl;
+  }
 
   // crear the vectorEE
   sieved_vector.clear();
@@ -141,7 +146,7 @@ void parseCmd(int argc, char **argv, parsed_t &parsed) {
   if (last_number < 2) {
     help(program_name_ptr);
   }
-  parsed.last_number = last_number;
+  parsed.last_number = pow(2, last_number);
 
   char *number_of_threads_ptr = argv[2];
   try {

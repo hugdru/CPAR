@@ -1,2 +1,0 @@
-mpic++ -std=c++14 -o MPItest main.cpp
-mpirun --hostfile host_file -np 2 MPItest

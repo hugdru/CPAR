@@ -24,6 +24,8 @@ size_t parseCmd(int argc, char ** argv);
 void help(char *program_name, bool quit = true);
 
 int main(int argc, char** argv) {
+  double start, end;
+
   size_t last_number = parseCmd(argc,argv);
 
   int rank, size;
@@ -46,6 +48,8 @@ int main(int argc, char** argv) {
   vector<bool> sieved_vector(blockSize, false);
 
   MPI_Barrier(MPI_COMM_WORLD);
+  if(rank == ROOT_MACHINE)
+    start = MPI_Wtime();
 
   size_t k = 2;
   size_t startBlock;
@@ -88,7 +92,7 @@ int main(int argc, char** argv) {
   //cout << sstream.str();
 
   #ifndef NDEBUG
-    cout << "primes found by pc rank (" << rank << ")" << endl;
+    cout << "Primes found by pc rank (" << rank << ")" << endl;
   #endif
 
   size_t blockPrimes = 0;
@@ -105,9 +109,11 @@ int main(int argc, char** argv) {
   size_t AllBlocksPrimes = 0;
   //http://mpitutorial.com/tutorials/mpi-reduce-and-allreduce/
   MPI_Reduce(&blockPrimes, &AllBlocksPrimes, 1, MPI_UNSIGNED, MPI_SUM, ROOT_MACHINE, MPI_COMM_WORLD);
-  if(rank == ROOT_MACHINE)
-    cout << "Primes found: "<< AllBlocksPrimes << endl;
-
+  if(rank == ROOT_MACHINE) {
+    end = MPI_Wtime();
+    cout << "Primes found: " << AllBlocksPrimes << endl;
+    cout << "Time taken: " << (end - start) << endl;
+  }
   // crear the vectorEE
   sieved_vector.clear();
 
@@ -135,7 +141,7 @@ size_t parseCmd(int argc, char **argv) {
     help(program_name_ptr);
   }
 
-  return last_number;
+  return pow(2, last_number);
 }
 
 void help(char *program_name, bool quit) {
