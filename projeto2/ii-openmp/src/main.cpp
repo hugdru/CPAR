@@ -41,7 +41,7 @@ int main(const int argc, char const *const *const argv) {
   // http://stackoverflow.com/questions/2688466/why-mallocmemset-is-slower-than-calloc
   vector<bool> sieved_vector(parsed.last_number - 1, false);
   size_t limit =
-      static_cast<size_t>(sqrt(static_cast<double>(parsed.last_number)));
+      static_cast<size_t>(sqrt(static_cast<double>(last_number)));
   for (size_t k = 2; k <= limit;) {
 #pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static)
     for (size_t multiple = k * k; multiple <= parsed.last_number;

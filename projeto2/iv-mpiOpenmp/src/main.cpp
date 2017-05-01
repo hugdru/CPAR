@@ -55,6 +55,8 @@ int main(int argc, char** argv) {
 
   vector<bool> sieved_vector(blockSize, false);
 
+  MPI_Barrier(MPI_COMM_WORLD);
+
   size_t k = 2;
   size_t startBlock;
   while(k*k < limit) {
@@ -97,10 +99,15 @@ int main(int argc, char** argv) {
   //cout << sstream.str();
 
   #ifndef NDEBUG
+    cout << "primes found by pc rank (" << rank << ")" << endl;
+  #endif
+
   size_t blockPrimes = 0;
   for (size_t number = 0; number < blockSize; number++) {
     if (!sieved_vector[number]) {
-      cout << number << ", ";
+      #ifndef NDEBUG
+        cout << (blockLow + number) << ", ";
+      #endif
       blockPrimes++;
     }
   }
@@ -110,8 +117,6 @@ int main(int argc, char** argv) {
   MPI_Reduce(&blockPrimes, &AllBlocksPrimes, 1, MPI_UNSIGNED, MPI_SUM, ROOT_MACHINE, MPI_COMM_WORLD);
   if(rank == ROOT_MACHINE)
     cout << "Primes found: "<< AllBlocksPrimes << endl;
-
-  #endif
 
   // crear the vectorEE
   sieved_vector.clear();

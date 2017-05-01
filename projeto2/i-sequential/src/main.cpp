@@ -46,11 +46,14 @@ int main(const int argc, char const *const *const argv) {
   cout << sstream.str();
 
 #ifndef NDEBUG
+  int conter = 0;
   for (size_t number = 2; number <= last_number; ++number) {
     if (!sieved_vector[number - 2]) {
       cout << number << endl;
+      conter++;
     };
   }
+  cout << "primes found: " << conter << endl;
 #endif
 
   return EXIT_SUCCESS;

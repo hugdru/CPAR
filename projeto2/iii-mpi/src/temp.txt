@@ -1,2 +1,2 @@
-mpiCC.openmpi -o MPItest main.cpp
-mpirun --hostfile hostfile -np 2 MPItest
+mpic++ -std=c++14 -o MPItest main.cpp
+mpirun --hostfile host_file -np 2 MPItest
