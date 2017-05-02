@@ -74,11 +74,11 @@ size_t parseCmd(const int argc, char const *const *const argv) {
     help(program_name_ptr);
   }
 
-  if (last_number < 2) {
+  if (last_number < 1) {
     help(program_name_ptr);
   }
 
-  return last_number;
+  return pow(2,last_number);
 }
 
 void help(char const *const program_name, bool quit) {

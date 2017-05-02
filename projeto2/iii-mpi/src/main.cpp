@@ -137,7 +137,7 @@ size_t parseCmd(int argc, char **argv) {
     help(program_name_ptr);
   }
 
-  if (last_number < 2) {
+  if (last_number < 1) {
     help(program_name_ptr);
   }
 

@@ -80,10 +80,10 @@ void parseCmd(const int argc, char const *const *const argv, parsed_t &parsed) {
     cerr << "range error, got " << last_number_ptr;
     help(program_name_ptr);
   }
-  if (last_number < 2) {
+  if (last_number < 1) {
     help(program_name_ptr);
   }
-  parsed.last_number = last_number;
+  parsed.last_number = pow(2,last_number);
 
   char const *const number_of_threads_ptr = argv[2];
   try {

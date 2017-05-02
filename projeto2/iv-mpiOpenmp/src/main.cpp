@@ -143,7 +143,7 @@ void parseCmd(int argc, char **argv, parsed_t &parsed) {
     cerr << "range error, got " << last_number_ptr;
     help(program_name_ptr);
   }
-  if (last_number < 2) {
+  if (last_number < 1) {
     help(program_name_ptr);
   }
   parsed.last_number = pow(2, last_number);
