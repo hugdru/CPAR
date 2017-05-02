@@ -24,7 +24,7 @@ size_t parseCmd(int argc, char ** argv);
 void help(char *program_name, bool quit = true);
 
 int main(int argc, char** argv) {
-  double start, end;
+  double start = 0, end = 0;
 
   size_t last_number = parseCmd(argc,argv);
 
