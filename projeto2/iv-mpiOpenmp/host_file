@@ -4,3 +4,5 @@
 # To avoid oversubscribing, you can provide a maximum slot value for the host (max-slots=*)
 up201306843@192.168.33.29 slots=4 max-slots=4
 up201306843@192.168.33.27 slots=4 max-slots=4
+up201306843@192.168.33.28 slots=4 max-slots=4
+up201306843@192.168.33.26 slots=4 max-slots=4
