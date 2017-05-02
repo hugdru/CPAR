@@ -41,9 +41,9 @@ int main(const int argc, char const *const *const argv) {
   // http://stackoverflow.com/questions/2688466/why-mallocmemset-is-slower-than-calloc
   vector<bool> sieved_vector(parsed.last_number - 1, false);
   size_t limit =
-      static_cast<size_t>(sqrt(static_cast<double>(last_number)));
+      static_cast<size_t>(sqrt(static_cast<double>(parsed.last_number)));
   for (size_t k = 2; k <= limit;) {
-#pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static)
+#pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static) firstprivate(k)
     for (size_t multiple = k * k; multiple <= parsed.last_number;
          multiple += k) {
       sieved_vector[multiple - 2] = true;
@@ -53,16 +53,17 @@ int main(const int argc, char const *const *const argv) {
     } while (k <= limit && sieved_vector[k - 2]);
   }
   double end = omp_get_wtime();
-  ostringstream sstream;
-  sstream << "Time: " << end - start << endl;
-  cout << sstream.str();
+  cout << end - start << endl;
 
 #ifndef NDEBUG
+  size_t conter = 0;
   for (size_t number = 2; number <= parsed.last_number; ++number) {
     if (!sieved_vector[number - 2]) {
       cout << number << endl;
+      conter++;
     };
   }
+  cout << "primes found: " << conter << endl;
 #endif
 
   return EXIT_SUCCESS;
@@ -74,16 +75,16 @@ void parseCmd(const int argc, char const *const *const argv, parsed_t &parsed) {
     help(program_name_ptr);
   }
 
-  char const *const last_number_ptr = argv[1];
-  size_t last_number = strtoul(last_number_ptr, nullptr, 10);
+  char const *const exponent_ptr = argv[1];
+  size_t exponent = strtoul(exponent_ptr, nullptr, 10);
   if (errno == ERANGE) {
-    cerr << "range error, got " << last_number_ptr;
+    cerr << "range error, got " << exponent_ptr;
     help(program_name_ptr);
   }
-  if (last_number < 2) {
+  if (exponent < 2) {
     help(program_name_ptr);
   }
-  parsed.last_number = last_number;
+  parsed.last_number = pow(2, exponent);
 
   char const *const number_of_threads_ptr = argv[2];
   try {
@@ -102,8 +103,8 @@ void parseCmd(const int argc, char const *const *const argv, parsed_t &parsed) {
 }
 
 void help(char const *const program_name, bool quit) {
-  cerr << "This program calculates prime numbers up to N with X threads, N >= "
-          "2 and X > 0"
+  cerr << "This program calculates prime numbers up to pow(2, N) with X threads, N >= "
+          "1 and X > 0"
        << endl;
   cerr << "usage: " << program_name << " N X" << endl;
 

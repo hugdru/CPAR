@@ -25,8 +25,8 @@ using std::invalid_argument;
 using std::out_of_range;
 
 using parsed_t = struct {
-  size_t last_number;
-  int number_of_threads;
+  size_t last_number = 0;
+  int number_of_threads = 0;
 };
 
 void parseCmd(int argc, char **argv, parsed_t &parsed);
@@ -137,16 +137,16 @@ void parseCmd(int argc, char **argv, parsed_t &parsed) {
     help(program_name_ptr);
   }
 
-  char *last_number_ptr = argv[1];
-  size_t last_number = strtoul(last_number_ptr, nullptr, 10);
+  char *exponent_ptr = argv[1];
+  size_t exponent = strtoul(exponent_ptr, nullptr, 10);
   if (errno == ERANGE) {
-    cerr << "range error, got " << last_number_ptr;
+    cerr << "range error, got " << exponent_ptr;
     help(program_name_ptr);
   }
-  if (last_number < 2) {
+  if (exponent < 1) {
     help(program_name_ptr);
   }
-  parsed.last_number = pow(2, last_number);
+  parsed.last_number = pow(2, exponent);
 
   char *number_of_threads_ptr = argv[2];
   try {
@@ -165,8 +165,8 @@ void parseCmd(int argc, char **argv, parsed_t &parsed) {
 }
 
 void help(char *program_name, bool quit) {
-  cerr << "This program calculates prime numbers up to N with X threads, N >= "
-          "2 and X > 0"
+  cerr << "This program calculates prime numbers up to pow(2,N) with X threads, N >= "
+          "1 and X > 0"
        << endl;
   cerr << "usage: " << program_name << " N X" << endl;
 

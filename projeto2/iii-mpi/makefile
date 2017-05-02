@@ -43,10 +43,3 @@ clean:
 test:
 	echo $(SRC)
 	echo $(OBJ)
-
-run:
-	for np in 1 2 3 4 ; do \
-		for n in 25 26 27 28 29 30 31 32 ; do \
-        mpirun --hostfile host_file -np $$np ./bin/iii-sequential-sieve_of_erastosthenes $$n; \
-		done; \
-	done; \

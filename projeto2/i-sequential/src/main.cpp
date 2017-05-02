@@ -40,13 +40,10 @@ int main(const int argc, char const *const *const argv) {
     } while (k <= limit && sieved_vector[k - 2]);
   }
   clock_t end = clock();
-  ostringstream sstream;
-  sstream << "Time: " << static_cast<double>(end - start) / CLOCKS_PER_SEC
-          << endl;
-  cout << sstream.str();
+  cout << static_cast<double>(end - start) / CLOCKS_PER_SEC << endl;
 
 #ifndef NDEBUG
-  int conter = 0;
+  size_t conter = 0;
   for (size_t number = 2; number <= last_number; ++number) {
     if (!sieved_vector[number - 2]) {
       cout << number << endl;
@@ -66,23 +63,23 @@ size_t parseCmd(const int argc, char const *const *const argv) {
     help(program_name_ptr);
   }
 
-  char const *const last_number_ptr = argv[1];
+  char const *const exponent_ptr = argv[1];
 
-  size_t last_number = strtoul(last_number_ptr, nullptr, 10);
+  size_t exponent = strtoul(exponent_ptr, nullptr, 10);
   if (errno == ERANGE) {
-    std::cout << "range error, got " << last_number_ptr;
+    std::cout << "range error, got " << exponent_ptr;
     help(program_name_ptr);
   }
 
-  if (last_number < 2) {
+  if (exponent < 1) {
     help(program_name_ptr);
   }
 
-  return last_number;
+  return pow(2, exponent);
 }
 
 void help(char const *const program_name, bool quit) {
-  cerr << "This program calculates prime numbers up to N, N must be >= 2"
+  cerr << "This program calculates prime numbers up to pow(N,2), N must be >= 1"
        << endl;
   cerr << "usage: " << program_name << " N" << endl;
 

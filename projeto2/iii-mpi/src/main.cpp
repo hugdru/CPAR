@@ -129,23 +129,23 @@ size_t parseCmd(int argc, char **argv) {
     help(program_name_ptr);
   }
 
-  char *last_number_ptr = argv[1];
+  char *exponent_ptr = argv[1];
 
-  size_t last_number = strtoul(last_number_ptr, nullptr, 10);
+  size_t exponent = strtoul(exponent_ptr, nullptr, 10);
   if (errno == ERANGE) {
-    std::cout << "range error, got " << last_number_ptr;
+    std::cout << "range error, got " << exponent_ptr;
     help(program_name_ptr);
   }
 
-  if (last_number < 2) {
+  if (exponent < 1) {
     help(program_name_ptr);
   }
 
-  return pow(2, last_number);
+  return pow(2, exponent);
 }
 
 void help(char *program_name, bool quit) {
-  cerr << "This program calculates prime numbers up to N, N must be >= 2"
+  cerr << "This program calculates prime numbers up to powe(2,N), N must be >= 1"
        << endl;
   cerr << "usage: " << program_name << " N" << endl;
 
