@@ -7,8 +7,8 @@ set(src_dir src)
 file(GLOB_RECURSE src_files ${src_dir}/*.cpp ${src_dir}/*.hpp)
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "No build type selected, default to Debug")
-  set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Build type (default Debug)" FORCE)
+  message(STATUS "No build type selected, default to Release")
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build type (default Release)" FORCE)
 endif()
 
 set(CMAKE_CXX_STANDARD 14)
