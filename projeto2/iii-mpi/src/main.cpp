@@ -104,15 +104,20 @@ int main(int argc, char** argv) {
       blockPrimes++;
     }
   }
+#ifndef NDEBUG
   cout << endl;
+#endif
 
   size_t AllBlocksPrimes = 0;
   //http://mpitutorial.com/tutorials/mpi-reduce-and-allreduce/
   MPI_Reduce(&blockPrimes, &AllBlocksPrimes, 1, MPI_UNSIGNED, MPI_SUM, ROOT_MACHINE, MPI_COMM_WORLD);
   if(rank == ROOT_MACHINE) {
     end = MPI_Wtime();
+    #ifndef NDEBUG
     cout << "Primes found: " << AllBlocksPrimes << endl;
     cout << "Time taken: " << (end - start) << endl;
+    #endif
+    cout << (end - start) << endl;
   }
   // crear the vectorEE
   delete[] sieved_vector;

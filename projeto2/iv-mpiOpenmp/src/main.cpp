@@ -93,12 +93,6 @@ int main(int argc, char** argv) {
     // comm -> we are going to use the default communicator (MPI_COMM_WORLD for simple group applications)
     MPI_Bcast(&k, 1, MPI_UNSIGNED, ROOT_MACHINE, MPI_COMM_WORLD);
   }
-  // clock_t end = clock();
-
-  //ostringstream sstream;
-  //sstream << "Time: " << static_cast<double>(end - start) / CLOCKS_PER_SEC
-  //        << endl;
-  //cout << sstream.str();
 
   #ifndef NDEBUG
     cout << "primes found by pc rank (" << rank << ")" << endl;
@@ -119,9 +113,12 @@ int main(int argc, char** argv) {
   MPI_Reduce(&blockPrimes, &AllBlocksPrimes, 1, MPI_UNSIGNED, MPI_SUM, ROOT_MACHINE, MPI_COMM_WORLD);
   if(rank == ROOT_MACHINE) {
     end = MPI_Wtime();
+#ifndef NDEBUG
     cout << "Primes found: " << AllBlocksPrimes << endl;
     cout << "Time taken: " << (end - start) << endl;
-  }
+#endif
+    cout << (end - start) << endl; 
+ }
 
   // crear the vectorEE
   delete[] sieved_vector;
