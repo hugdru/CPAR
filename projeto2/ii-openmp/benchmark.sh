@@ -7,22 +7,25 @@ cd "${0%/*}"
 benchmark_file_path="../benchmarks/ii-openmp.csv"
 binary_path="./bin/ii-openmp-sieve_of_erastosthenes"
 n_repetitions=3
-number_of_threads=4
 
 main() {
   make clean
   make releaseO3
 
   rm -f "$benchmark_file_path"
-  touch "$benchmark_file_path"
 
+  echo "threads,2^n,time(s)" >> "$benchmark_file_path"
   for n in {25..32}; do
-    acumulator=0
-    for ((repetition=0;repetition<n_repetitions;repetition++)); do
-      time=$("$binary_path" "$n" "$number_of_threads")
-      acumulator=$(python -c "print($acumulator + $time)")
+    for number_of_threads in 1 2 4; do
+      min_time=''
+      for ((repetition=0;repetition<n_repetitions;repetition++)); do
+        current_time=$("$binary_path" "$n" "$number_of_threads")
+        if [[ -z $min_time || "$(python -c "print($min_time > $current_time)")" == True ]]; then
+          min_time=$current_time
+        fi
+      done
+      echo "$number_of_threads,$n,$min_time" | tee -a "$benchmark_file_path"
     done
-    echo "$n,$(python -c "print($acumulator / $n_repetitions)")" >> "$benchmark_file_path"
   done
 }
 
