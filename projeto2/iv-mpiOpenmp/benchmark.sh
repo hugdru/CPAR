@@ -7,6 +7,7 @@ cd "${0%/*}"
 benchmark_file_path="../benchmarks/iv-mpiOpenmp.csv"
 binary_path="./bin/iv-mpiOpenmp-sieve_of_erastosthenes"
 n_repetitions=3
+host_files_dir_path="../host_files"
 host_files=("./host_file_1pc" "./host_file_2pc" "./host_file_3pc" "./host_file_4pc")
 processes_per_node=1
 
@@ -24,7 +25,7 @@ main() {
         min_time=''
         for ((repetition=0;repetition<n_repetitions;repetition++)); do
           # Only one process per node to test openmp with 1 2 4 threads in each node
-          current_time=$(mpirun --hostfile "$host_file" --map-by ppr:$processes_per_node:node "$binary_path" "$n" "$number_of_threads")
+          current_time=$(mpirun --hostfile "$host_files_dir_path/$host_file" --map-by ppr:$processes_per_node:node "$binary_path" "$n" "$number_of_threads")
           if [[ -z $min_time || "$(python -c "print($min_time > $current_time)")" == True ]]; then
             min_time=$current_time
           fi
