@@ -6,7 +6,7 @@ cd "${0%/*}"
 
 benchmark_file_path="../benchmarks/ii-openmp.csv"
 binary_path="./bin/ii-openmp-sieve_of_erastosthenes"
-n_repetitions=3
+n_repetitions=6
 
 main() {
   make clean

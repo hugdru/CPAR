@@ -6,7 +6,7 @@ cd "${0%/*}"
 
 benchmark_file_path="../benchmarks/iii-mpi.csv"
 binary_path="./bin/iii-mpi-sieve_of_erastosthenes"
-n_repetitions=3
+n_repetitions=6
 host_file="./host_file"
 
 main() {
