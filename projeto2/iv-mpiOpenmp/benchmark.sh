@@ -14,6 +14,7 @@ main() {
   make clean
   make releaseO3
 
+  mkdir -p "${benchmark_file_path%/*}"
   rm -f "$benchmark_file_path"
 
   echo "threads,processes/node,2^n,time(s)" >> "$benchmark_file_path"
