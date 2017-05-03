@@ -2,7 +2,7 @@ SRC = $(wildcard src/*.cpp)
 
 OBJ = $(patsubst src%, ./buildtemp%.o, $(SRC))
 
-OUT = bin/iii-sequential-sieve_of_erastosthenes
+OUT = bin/iii-mpi-sieve_of_erastosthenes
 
 # include directories
 INCLUDES = -I./src -I/usr/local/include

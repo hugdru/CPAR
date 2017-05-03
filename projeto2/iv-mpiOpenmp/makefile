@@ -2,7 +2,7 @@ SRC = $(wildcard src/*.cpp)
 
 OBJ = $(patsubst src%, ./buildtemp%.o, $(SRC))
 
-OUT = bin/iv-openmp-sieve_of_erastosthenes
+OUT = bin/iv-mpiOpenmp-sieve_of_erastosthenes
 
 # include directories
 INCLUDES = -I./src -I/usr/local/include
