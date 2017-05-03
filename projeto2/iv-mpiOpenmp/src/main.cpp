@@ -33,10 +33,10 @@ void parseCmd(int argc, char **argv, parsed_t &parsed);
 void help(char *program_name, bool quit = true);
 
 int main(int argc, char** argv) {
-  parsed_t parsed;
+  parsed_t parsed = {2,1};
   parseCmd(argc, argv, parsed);
 
-  double start, end;
+  double start = 0, end = 0;
 
   int rank, size;
 
@@ -143,6 +143,7 @@ void parseCmd(int argc, char **argv, parsed_t &parsed) {
     cerr << "range error, got " << exponent_ptr;
     help(program_name_ptr);
   }
+
   if (exponent < 1) {
     help(program_name_ptr);
   }

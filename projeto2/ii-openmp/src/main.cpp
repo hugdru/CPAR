@@ -81,7 +81,8 @@ void parseCmd(const int argc, char const *const *const argv, parsed_t &parsed) {
     cerr << "range error, got " << exponent_ptr;
     help(program_name_ptr);
   }
-  if (exponent < 2) {
+
+  if (exponent < 1) {
     help(program_name_ptr);
   }
   parsed.last_number = pow(2, exponent);
