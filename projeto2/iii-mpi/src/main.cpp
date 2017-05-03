@@ -36,6 +36,9 @@ int main(int argc, char** argv) {
   MPI_Comm_size( MPI_COMM_WORLD, &size);
   MPI_Comm_rank( MPI_COMM_WORLD, &rank);
 
+#ifndef NDEBUG
+  cout << "size (" << size << ") | rank(" << rank << ")" << endl;
+#endif
   // ------------ MPI CODE ----------------
 
   //clock_t start = clock();
@@ -84,22 +87,11 @@ int main(int argc, char** argv) {
   }
   // clock_t end = clock();
 
-
-
-  //ostringstream sstream;
-  //sstream << "Time: " << static_cast<double>(end - start) / CLOCKS_PER_SEC
-  //        << endl;
-  //cout << sstream.str();
-
-  #ifndef NDEBUG
-    cout << "Primes found by pc rank (" << rank << ")" << endl;
-  #endif
-
   size_t blockPrimes = 0;
   for (size_t number = 0; number < blockSize; number++) {
     if (!sieved_vector[number]) {
       #ifndef NDEBUG
-        cout << (blockLow + number) << ", ";
+        cout << (blockLow + number) << " rank(" << rank << ")" << endl;
       #endif
       blockPrimes++;
     }
@@ -115,7 +107,7 @@ int main(int argc, char** argv) {
     end = MPI_Wtime();
     #ifndef NDEBUG
     cout << "Primes found: " << AllBlocksPrimes << endl;
-    cout << "Time taken: " << (end - start) << endl;
+    cout << "Time taken: ";
     #endif
     cout << (end - start) << endl;
   }
