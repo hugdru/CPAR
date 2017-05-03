@@ -13,15 +13,17 @@ main() {
   make releaseO3
 
   rm -f "$benchmark_file_path"
-  touch "$benchmark_file_path"
 
+  echo "2^n,time(s)" >> "$benchmark_file_path"
   for n in {25..32}; do
-    acumulator=0
+    min_time=''
     for ((repetition=0;repetition<n_repetitions;repetition++)); do
-      time=$("$binary_path" "$n")
-      acumulator=$(python -c "print($acumulator + $time)")
+      current_time=$("$binary_path" $n)
+      if [[ -z $min_time || "$(python -c "print($min_time > $current_time)")" == True ]]; then
+        min_time=$current_time
+      fi
     done
-    echo "$n,$(python -c "print($acumulator / $n_repetitions)")" >> "$benchmark_file_path"
+    echo "$n,$min_time" | tee -a "$benchmark_file_path"
   done
 }
 
