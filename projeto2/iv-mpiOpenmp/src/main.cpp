@@ -106,7 +106,7 @@ int main(int argc, char** argv) {
       blockPrimes++;
     }
   }
-#ifdef NDEBUG
+#ifndef NDEBUG
 cout << endl;
 #endif
 

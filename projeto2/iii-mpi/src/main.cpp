@@ -96,9 +96,6 @@ int main(int argc, char** argv) {
       blockPrimes++;
     }
   }
-#ifndef NDEBUG
-  cout << endl;
-#endif
 
   size_t AllBlocksPrimes = 0;
   //http://mpitutorial.com/tutorials/mpi-reduce-and-allreduce/
