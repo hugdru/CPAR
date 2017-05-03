@@ -3,6 +3,3 @@
 # The number of slots can be determined by the number of cores on the node or the number of processor sockets. If no slots are specified for a host, then the number of slots defaults to one.
 # To avoid oversubscribing, you can provide a maximum slot value for the host (max-slots=*)
 up201306843@192.168.33.1 slots=4 max-slots=4
-up201306843@192.168.33.2 slots=4 max-slots=4
-up201306843@192.168.33.3 slots=4 max-slots=4
-up201306843@192.168.33.4 slots=4 max-slots=4
