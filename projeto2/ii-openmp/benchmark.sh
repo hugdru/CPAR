@@ -17,7 +17,7 @@ main() {
 
   echo "threads,2^n,time(s)" >> "$benchmark_file_path"
   for n in {25..32}; do
-    for number_of_threads in 1 2 4; do
+    for number_of_threads in {1..4}; do
       min_time=''
       for ((repetition=0;repetition<n_repetitions;repetition++)); do
         current_time=$("$binary_path" "$n" "$number_of_threads")
