@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
   unsigned long blockLow = BLOCK_LOW(rank, limit, size) + 2;
   unsigned long blockHigh = BLOCK_HIGH(rank, limit, size) + 2;
 
-  vector<bool> sieved_vector(blockSize, false);
+  bool *sieved_vector = new bool[blockSize] {false};
 
   MPI_Barrier(MPI_COMM_WORLD);
   if(rank == ROOT_MACHINE)
@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
   }
 
   // crear the vectorEE
-  sieved_vector.clear();
+  delete[] sieved_vector;
 
   MPI_Finalize();
 
