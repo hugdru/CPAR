@@ -31,15 +31,18 @@ int main(const int argc, char const *const *const argv) {
   // that is a bitset whose size is only known at runtime
   // It is faster and a lot more memory efficient (1/8) than an array of
   // booleans, given that more information can be cached. bits vs bytes.
+  // HOWEVER WE CANNOT USE IT FOR THE OPENMP VERSION BECAUSE OF THE BITS
+  // MANIPULATION THIS WOULD CAUSE RACE CONDITIONS !!!!!!!!!!!!!!!!
   // The instruction overhead of getting the bit in the byte is more and more
   // insignificant as the last_number increases because of the cache hits.
   // The array of booleans is only advantageous for a very small range which is
   // not expected in the use of this algorithm.
+  // WE MUST USE IN THIS CASE A BOOL ARRAY
   // Also "initializing" the vector to false == zero is a lot faster.
   // Because with the right operating system call we get pre scrubbed zero memory
   // http://en.cppreference.com/w/cpp/utility/bitset in notes
   // http://stackoverflow.com/questions/2688466/why-mallocmemset-is-slower-than-calloc
-  vector<bool> sieved_vector(parsed.last_number - 1, false);
+  bool *sieved_vector = new bool[parsed.last_number - 1] {false};
   size_t limit =
       static_cast<size_t>(sqrt(static_cast<double>(parsed.last_number)));
   for (size_t k = 2; k <= limit;) {
@@ -66,6 +69,7 @@ int main(const int argc, char const *const *const argv) {
   cout << "primes found: " << conter << endl;
 #endif
 
+  delete[] sieved_vector;
   return EXIT_SUCCESS;
 }
 
