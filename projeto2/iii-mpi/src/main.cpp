@@ -3,15 +3,15 @@
 #include <sstream>
 #include <vector>
 
-#include "mpi.h"
+#include <mpi.h>
 
 #define ROOT_MACHINE 0
 
 // taken from the class pdf
-#define BLOCK_LOW(i,n,p) ((i)*(n)/(p))
-#define BLOCK_HIGH(i,n,p) (BLOCK_LOW((i)+1,n,p)-1)
-#define BLOCK_SIZE(i,n,p) (BLOCK_LOW((i)+1,n,p)-BLOCK_LOW(i,n,p))
-#define BLOCK_OWNER(index,n,p) ((((p)*(index)+1)-1)/(n))
+#define BLOCK_LOW(i, n, p) ((i)*(n)/(p))
+#define BLOCK_HIGH(i, n, p) (BLOCK_LOW((i)+1,n,p)-1)
+#define BLOCK_SIZE(i, n, p) (BLOCK_LOW((i)+1,n,p)-BLOCK_LOW(i,n,p))
+#define BLOCK_OWNER(index, n, p) ((((p)*(index)+1)-1)/(n))
 
 using std::cout;
 using std::endl;
@@ -20,21 +20,21 @@ using std::cerr;
 using std::string;
 using std::ostringstream;
 
-size_t parseCmd(int argc, char ** argv);
+size_t parseCmd(int argc, char **argv);
 void help(char *program_name, bool quit = true);
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   double start = 0, end = 0;
 
-  size_t last_number = parseCmd(argc,argv);
+  size_t last_number = parseCmd(argc, argv);
 
   int rank, size;
 
   // mpi init needs to receve the argc and argv
-  MPI_Init( &argc, &argv );
+  MPI_Init(&argc, &argv);
 
-  MPI_Comm_size( MPI_COMM_WORLD, &size);
-  MPI_Comm_rank( MPI_COMM_WORLD, &rank);
+  MPI_Comm_size(MPI_COMM_WORLD, &size);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
 #ifndef NDEBUG
   cout << "size (" << size << ") | rank(" << rank << ")" << endl;
@@ -48,17 +48,17 @@ int main(int argc, char** argv) {
   unsigned long blockLow = BLOCK_LOW(rank, limit, size) + 2;
   unsigned long blockHigh = BLOCK_HIGH(rank, limit, size) + 2;
 
-  bool *sieved_vector = new bool[blockSize] {false};
+  bool *sieved_vector = new bool[blockSize]{false};
 
   MPI_Barrier(MPI_COMM_WORLD);
-  if(rank == ROOT_MACHINE)
+  if (rank == ROOT_MACHINE)
     start = MPI_Wtime();
 
   size_t k = 2;
   size_t startBlock;
-  while(k*k < limit) {
+  while (k * k < limit) {
     // to determine the block start index for the peer
-    if (k*k < blockLow) {
+    if (k * k < blockLow) {
       startBlock = blockLow;// se k * k < comeco do block vai diretamente para o comeco do bloco
       if (blockLow % k != 0)
         startBlock += (k - (blockLow % k));
@@ -72,10 +72,10 @@ int main(int argc, char** argv) {
     }
 
     //
-    if(rank == ROOT_MACHINE) {
+    if (rank == ROOT_MACHINE) {
       do {
         k++;
-      } while (k*k < blockHigh && sieved_vector[k - blockLow]);
+      } while (k * k < blockHigh && sieved_vector[k - blockLow]);
     }
     // int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm comm)
     // buffer -> buffer to pass
@@ -90,9 +90,9 @@ int main(int argc, char** argv) {
   size_t blockPrimes = 0;
   for (size_t number = 0; number < blockSize; number++) {
     if (!sieved_vector[number]) {
-      #ifndef NDEBUG
-        cout << (blockLow + number) << " rank(" << rank << ")" << endl;
-      #endif
+#ifndef NDEBUG
+      cout << (blockLow + number) << " rank(" << rank << ")" << endl;
+#endif
       blockPrimes++;
     }
   }
@@ -100,12 +100,12 @@ int main(int argc, char** argv) {
   size_t AllBlocksPrimes = 0;
   //http://mpitutorial.com/tutorials/mpi-reduce-and-allreduce/
   MPI_Reduce(&blockPrimes, &AllBlocksPrimes, 1, MPI_UNSIGNED, MPI_SUM, ROOT_MACHINE, MPI_COMM_WORLD);
-  if(rank == ROOT_MACHINE) {
+  if (rank == ROOT_MACHINE) {
     end = MPI_Wtime();
-    #ifndef NDEBUG
+#ifndef NDEBUG
     cout << "Primes found: " << AllBlocksPrimes << endl;
     cout << "Time taken: ";
-    #endif
+#endif
     cout << (end - start) << endl;
   }
   // crear the vectorEE
