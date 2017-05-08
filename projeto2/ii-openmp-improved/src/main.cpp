@@ -46,7 +46,7 @@ int main(const int argc, char const *const *const argv) {
   size_t limit =
       static_cast<size_t>(sqrt(static_cast<double>(parsed.last_number)));
   for (size_t k = 2; k <= limit;) {
-#pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static)
+#pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static) firstprivate(k)
     for (size_t multiple = k * k; multiple <= parsed.last_number;
          multiple += k) {
       sieved_vector[multiple - 2] = true;
