@@ -27,30 +27,47 @@ int main(const int argc, char const *const *const argv) {
   parseCmd(argc, argv, parsed);
 
   double start = omp_get_wtime();
-  
-  bool *sieved_vector = new bool[parsed.last_number/2] {false};
-  #pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static)
-  for (size_t k = 3; k < parsed.last_number; k += 2) {
-    if(!sieved_vector[k/2]) {      
-      for (size_t multiple = k * k; multiple < parsed.last_number; multiple += 2 * k) {
-        sieved_vector[multiple/2] = true;
-      }
+  // vector<bool> acts like a dynamic_bitset
+  // that is a bitset whose size is only known at runtime
+  // It is faster and a lot more memory efficient (1/8) than an array of
+  // booleans, given that more information can be cached. bits vs bytes.
+  // HOWEVER WE CANNOT USE IT FOR THE OPENMP VERSION BECAUSE OF THE BITS
+  // MANIPULATION THIS WOULD CAUSE RACE CONDITIONS !!!!!!!!!!!!!!!!
+  // The instruction overhead of getting the bit in the byte is more and more
+  // insignificant as the last_number increases because of the cache hits.
+  // The array of booleans is only advantageous for a very small range which is
+  // not expected in the use of this algorithm.
+  // WE MUST USE IN THIS CASE A BOOL ARRAY
+  // Also "initializing" the vector to false == zero is a lot faster.
+  // Because with the right operating system call we get pre scrubbed zero memory
+  // http://en.cppreference.com/w/cpp/utility/bitset in notes
+  // http://stackoverflow.com/questions/2688466/why-mallocmemset-is-slower-than-calloc
+  bool *sieved_vector = new bool[parsed.last_number - 1] {false};
+  size_t limit =
+      static_cast<size_t>(sqrt(static_cast<double>(parsed.last_number)));
+  for (size_t k = 2; k <= limit;) {
+#pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static) firstprivate(k)
+    for (size_t multiple = k * k; multiple <= parsed.last_number;
+         multiple += k) {
+      sieved_vector[multiple - 2] = true;
     }
+    do {
+      ++k;
+    } while (k <= limit && sieved_vector[k - 2]);
   }
   double end = omp_get_wtime();
   cout << end - start << endl;
 
-	#ifndef NDEBUG
-	  size_t conter = 1;
-	  cout << 2 << ", ";
-	  for (size_t k = 3; k < parsed.last_number; k += 2) {
-	    if(!sieved_vector[k/2]){
-	      cout << k << ", ";
-	      conter++;
-	    }
-	  }
-	  cout << "primes found: " << conter << endl;
-	#endif
+#ifndef NDEBUG
+  size_t conter = 0;
+  for (size_t number = 2; number <= parsed.last_number; ++number) {
+    if (!sieved_vector[number - 2]) {
+      cout << number << endl;
+      conter++;
+    };
+  }
+  cout << "primes found: " << conter << endl;
+#endif
 
   delete[] sieved_vector;
   return EXIT_SUCCESS;
