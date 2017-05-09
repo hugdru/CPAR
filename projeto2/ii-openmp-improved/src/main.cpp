@@ -27,30 +27,30 @@ int main(const int argc, char const *const *const argv) {
   parseCmd(argc, argv, parsed);
 
   double start = omp_get_wtime();
-  
-  bool *sieved_vector = new bool[parsed.last_number/2] {false};
-  #pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static)
+
+  bool *sieved_vector = new bool[parsed.last_number / 2]{false};
+#pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static)
   for (size_t k = 3; k < parsed.last_number; k += 2) {
-    if(!sieved_vector[k/2]) {      
+    if (!sieved_vector[k / 2]) {
       for (size_t multiple = k * k; multiple < parsed.last_number; multiple += 2 * k) {
-        sieved_vector[multiple/2] = true;
+        sieved_vector[multiple / 2] = true;
       }
     }
   }
   double end = omp_get_wtime();
   cout << end - start << endl;
 
-	#ifndef NDEBUG
-	  size_t conter = 1;
-	  cout << 2 << ", ";
-	  for (size_t k = 3; k < parsed.last_number; k += 2) {
-	    if(!sieved_vector[k/2]){
-	      cout << k << ", ";
-	      conter++;
-	    }
-	  }
-	  cout << "primes found: " << conter << endl;
-	#endif
+#ifndef NDEBUG
+  size_t conter = 1;
+  cout << 2 << ", ";
+  for (size_t k = 3; k < parsed.last_number; k += 2) {
+    if (!sieved_vector[k / 2]) {
+      cout << k << ", ";
+      conter++;
+    }
+  }
+  cout << "primes found: " << conter << endl;
+#endif
 
   delete[] sieved_vector;
   return EXIT_SUCCESS;
@@ -92,7 +92,7 @@ void parseCmd(const int argc, char const *const *const argv, parsed_t &parsed) {
 
 void help(char const *const program_name, bool quit) {
   cerr << "This program calculates prime numbers up to pow(2, N) with X threads, N >= "
-          "1 and X > 0"
+      "1 and X > 0"
        << endl;
   cerr << "usage: " << program_name << " N X" << endl;
 
