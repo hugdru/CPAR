@@ -30,7 +30,8 @@ int main(const int argc, char const *const *const argv) {
   // http://en.cppreference.com/w/cpp/utility/bitset in notes
   // http://stackoverflow.com/questions/2688466/why-mallocmemset-is-slower-than-calloc
   vector<bool> sieved_vector(last_number / 2, false);
-  for (size_t k = 3; k < last_number; k += 2) {
+  size_t limit = static_cast<size_t>(sqrt(last_number));
+  for (size_t k = 3; k <= limit; k += 2) {
     if (!sieved_vector[k / 2]) {
       for (size_t multiple = k * k; multiple < last_number; multiple += 2 * k) {
         sieved_vector[multiple / 2] = true;
