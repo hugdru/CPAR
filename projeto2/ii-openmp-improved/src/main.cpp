@@ -29,8 +29,9 @@ int main(const int argc, char const *const *const argv) {
   double start = omp_get_wtime();
 
   bool *sieved_vector = new bool[parsed.last_number / 2]{false};
+  size_t limit = static_cast<size_t>(sqrt(parsed.last_number));
 #pragma omp parallel for num_threads(parsed.number_of_threads) schedule(static)
-  for (size_t k = 3; k < parsed.last_number; k += 2) {
+  for (size_t k = 3; k <= limit; k += 2) {
     if (!sieved_vector[k / 2]) {
       for (size_t multiple = k * k; multiple < parsed.last_number; multiple += 2 * k) {
         sieved_vector[multiple / 2] = true;
