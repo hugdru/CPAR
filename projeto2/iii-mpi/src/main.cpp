@@ -54,35 +54,38 @@ int main(int argc, char **argv) {
   if (rank == ROOT_MACHINE)
     start = MPI_Wtime();
 
+  // All processes use the first prime, 2, to filter
   size_t k = 2;
   size_t startBlock;
   while (k * k < limit) {
-    // to determine the block start index for the peer
+    // Determine the startBlock for the peers
     if (k * k < blockLow) {
-      startBlock = blockLow;// se k * k < comeco do block vai diretamente para o comeco do bloco
-      if (blockLow % k != 0)
-        startBlock += (k - (blockLow % k));
+      // If the blockLow value is divisible by k
+      // blockLow should be filtered and used to filter
+      startBlock = blockLow;
+      if (blockLow % k != 0) {
+        startBlock += (k - (blockLow % k)); // Else find the closest multiple
+      }
     } else {
       startBlock = k * k;
     }
 
-    // mark multiples
+    // Mark the multiples, if startBlock is greater than blockHigh don't mark
+    // because it exceeds this rank's concerns
     for (size_t multiple = startBlock; multiple <= blockHigh; multiple += k) {
       sieved_vector[multiple - blockLow] = true;
     }
 
-    //
+    // Only root finds the primes because the last prime to be used to filter
+    // is in the root block, p < sqrt(n)
     if (rank == ROOT_MACHINE) {
       do {
         k++;
       } while (k * k < blockHigh && sieved_vector[k - blockLow]);
     }
-    // int MPI_Bcast(void *buffer, int count, MPI_Datatype datatype, int root, MPI_Comm comm)
-    // buffer -> buffer to pass
-    // count -> size of buffer
-    // datatype -> type of buffer (this case unsigned int)
-    // root -> root machine (rank = 0)
-    // comm -> we are going to use the default communicator (MPI_COMM_WORLD for simple group applications)
+
+    // Root sends another prime to all members of the MPI_COMM_WORLD
+    // communication group so that they can begin filtering again
     MPI_Bcast(&k, 1, MPI_UNSIGNED, ROOT_MACHINE, MPI_COMM_WORLD);
   }
   // clock_t end = clock();
