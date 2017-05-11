@@ -8,7 +8,7 @@ benchmark_file_path="../benchmarks/iv-mpiOpenmp.csv"
 binary_path="./bin/iv-mpiOpenmp-sieve_of_erastosthenes"
 n_repetitions=6
 host_files_dir_path="../host_files"
-host_files=("host_file_1pc" "host_file_2pc" "host_file_3pc" "host_file_4pc")
+host_files=("host_file_1pc" "host_file_2pc" "host_file_4pc")
 processes_per_node=1
 
 main() {
